@@ -1151,11 +1151,9 @@ function goStep(n){
     if(curStep===4 && n===5){
       if(!selDate){alert('Lütfen bir tarih seçin.');return;}
       if(!selTime){alert('Lütfen bir saat seçin.');return;}
-      if(!selDate){alert('Lütfen bir tarih seçin.');return;}
-      if(!selTime){alert('Lütfen bir saat seçin.');return;}
     }
   }
-  if(n===4) fillSummary();
+  if(n===5) fillSummary();
   document.getElementById('step'+curStep).classList.remove('active');
   document.getElementById('step'+n).classList.add('active');
   for(let i=1;i<=5;i++){
