@@ -1132,7 +1132,7 @@ function renderSlots(ds){
 }
 function prevMonth(){m--;if(m<0){m=11;y--;}renderCal();}
 function nextMonth(){m++;if(m>11){m=0;y++;}renderCal();}
-renderCal();
+document.addEventListener("DOMContentLoaded", function(){ renderCal(); });
 
 // ── ÇOK ADIMLI FORM ──
 let curStep=1;
