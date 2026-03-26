@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+<meta name="theme-color" content="#1a56db"/>
+<title>BigelUsta — Kurulum Değerlendirmesi</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a56db;--blue-l:#3b82f6;--blue-pale:#eff6ff;--blue-bg:rgba(26,86,219,.07);--blue-br:rgba(26,86,219,.18);
+  --gold:#c8900a;--gold-pale:#f5c84a;--gold-bg:rgba(200,144,10,.08);--gold-br:rgba(200,144,10,.22);
+  --green:#059669;--green-bg:rgba(5,150,105,.07);--green-br:rgba(5,150,105,.2);
+  --wa:#25d366;--wa-bg:rgba(37,211,102,.07);--wa-br:rgba(37,211,102,.2);
+  --red:#dc2626;--red-bg:rgba(220,38,38,.07);
+  --bg:#f8faff;--white:#fff;--text:#0f172a;--muted:#64748b;--border:#dbeafe;--border2:#e2e8f0;
+  --grad:linear-gradient(135deg,#1a56db,#0891b2);
+  --shadow:0 2px 16px rgba(26,86,219,.1);--shadow-lg:0 8px 40px rgba(26,86,219,.14);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;padding:0}
+
+/* HEADER */
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+.logo-row{display:flex;align-items:center;gap:0}
+.logo-bigel{font-weight:800;font-size:1.2rem;color:var(--text)}
+.logo-sep{color:var(--blue);font-size:1.4rem;font-weight:900;margin:0 1px}
+.logo-usta{font-weight:800;font-size:1.2rem;color:var(--gold)}
+.logo-sub{font-size:.6rem;color:var(--muted);display:block;font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+
+/* MAIN */
+.main{max-width:560px;margin:0 auto;padding:24px 16px 60px}
+
+/* TOP CARD */
+.top-card{background:var(--white);border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.top-icon{font-size:2.5rem;margin-bottom:12px}
+.top-title{font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.top-sub{font-size:.87rem;color:var(--muted);line-height:1.6}
+.job-info{display:flex;flex-direction:column;gap:6px;margin-top:16px;padding:14px;background:var(--blue-bg);border:1px solid var(--blue-br);border-radius:10px;text-align:left}
+.job-row{display:flex;justify-content:space-between;font-size:.82rem}
+.job-key{color:var(--muted);font-weight:500}
+.job-val{color:var(--text);font-weight:700}
+
+/* SECTION */
+.section-card{background:var(--white);border-radius:16px;padding:20px;margin-bottom:16px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.section-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.section-title::before{content:'';width:18px;height:2px;background:var(--blue)}
+
+/* STAR RATING */
+.star-group{display:flex;flex-direction:column;gap:12px}
+.star-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg);border:1px solid var(--border2);border-radius:10px}
+.star-label{font-size:.88rem;font-weight:600;color:var(--text);flex:1}
+.stars{display:flex;gap:4px}
+.star{font-size:1.5rem;cursor:pointer;transition:transform .15s;-webkit-tap-highlight-color:transparent;user-select:none}
+.star:hover{transform:scale(1.15)}
+.star.filled{filter:none}
+.star.empty{filter:grayscale(1) opacity(.35)}
+
+/* BIG STAR (overall) */
+.big-stars{display:flex;justify-content:center;gap:8px;margin:8px 0 4px}
+.big-star{font-size:2.5rem;cursor:pointer;transition:transform .2s;-webkit-tap-highlight-color:transparent;user-select:none}
+.big-star:hover{transform:scale(1.2)}
+.star-label-text{text-align:center;font-size:.85rem;color:var(--muted);min-height:20px;margin-bottom:8px;font-weight:600}
+
+/* RADIO OPTIONS */
+.options{display:flex;flex-direction:column;gap:8px}
+.option{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--border2);border-radius:10px;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.option:hover{border-color:var(--blue-br);background:var(--blue-pale)}
+.option.selected{border-color:var(--blue);background:var(--blue-pale)}
+.option-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.option.selected .option-dot{border-color:var(--blue);background:var(--blue)}
+.option.selected .option-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.option-icon{font-size:1.1rem;flex-shrink:0}
+.option-text{font-size:.88rem;font-weight:600;color:var(--text)}
+
+/* TEXTAREA */
+.form-group{margin-bottom:0}
+.form-group label{display:block;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.form-group textarea,.form-group input{width:100%;padding:12px 14px;background:var(--bg);border:1.5px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical}
+.form-group textarea:focus,.form-group input:focus{border-color:var(--blue)}
+.form-group textarea{min-height:90px}
+.char-count{font-size:.7rem;color:var(--muted);text-align:right;margin-top:4px}
+
+/* PHOTO UPLOAD */
+.photo-upload{border:2px dashed var(--border2);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s}
+.photo-upload:hover{border-color:var(--blue-br);background:var(--blue-pale)}
+.photo-upload input{display:none}
+.photo-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.photo-thumb{position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden;border:1px solid var(--border2)}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb .remove{position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(220,38,38,.85);color:#fff;border:none;border-radius:50%;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* SUBMIT */
+.submit-btn{width:100%;padding:16px;background:var(--grad);color:#fff;border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:8px;box-shadow:0 4px 16px rgba(26,86,219,.25);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:hover{opacity:.9;transform:translateY(-1px)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:40px 20px}
+.success-screen.show{display:block}
+.success-icon{font-size:4rem;margin-bottom:16px}
+.success-title{font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.success-sub{font-size:.9rem;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.wa-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--wa);color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s}
+.wa-btn svg{width:18px;height:18px;fill:#fff}
+.wa-btn:hover{opacity:.9}
+.rating-summary{background:var(--blue-bg);border:1px solid var(--blue-br);border-radius:12px;padding:16px;margin:20px 0;display:flex;flex-direction:column;gap:8px}
+.rs-row{display:flex;justify-content:space-between;align-items:center;font-size:.85rem}
+.rs-key{color:var(--muted)}
+.rs-stars{color:var(--gold-pale);letter-spacing:2px}
+
+/* ALERT */
+.alert{padding:10px 14px;border-radius:8px;font-size:.82rem;font-weight:600;margin-top:8px;display:none}
+.alert.show{display:block}
+.alert.error{background:var(--red-bg);border:1px solid rgba(220,38,38,.2);color:var(--red)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="logo-row">
+      <span style="margin-right:3px">🪖</span>
+      <span class="logo-bigel">BiGEL</span>
+      <span class="logo-sep">·</span>
+      <span class="logo-usta">USTA</span>
+    </div>
+    <span class="logo-sub">Kurulum Değerlendirmesi</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- FORM -->
+  <div id="surveyForm">
+    <div class="top-card">
+      <div class="top-icon">⭐</div>
+      <div class="top-title">Kurulumu Nasıl Buldunuz?</div>
+      <div class="top-sub">Görüşleriniz bizim için çok değerli. 2 dakikanızı ayırarak deneyiminizi paylaşır mısınız?</div>
+      <div class="job-info" id="jobInfo">
+        <div class="job-row"><span class="job-key">Müşteri</span><span class="job-val" id="ji-name">Yükleniyor...</span></div>
+        <div class="job-row"><span class="job-key">Kurulum Tarihi</span><span class="job-val" id="ji-date">—</span></div>
+        <div class="job-row"><span class="job-key">Hizmet Türü</span><span class="job-val" id="ji-type">EV Şarj Kurulumu</span></div>
+      </div>
+    </div>
+
+    <!-- GENEL PUAN -->
+    <div class="section-card">
+      <div class="section-title">Genel Değerlendirme</div>
+      <div style="text-align:center">
+        <div class="big-stars" id="overallStars">
+          <span class="big-star empty" data-val="1" onclick="setOverall(1)">★</span>
+          <span class="big-star empty" data-val="2" onclick="setOverall(2)">★</span>
+          <span class="big-star empty" data-val="3" onclick="setOverall(3)">★</span>
+          <span class="big-star empty" data-val="4" onclick="setOverall(4)">★</span>
+          <span class="big-star empty" data-val="5" onclick="setOverall(5)">★</span>
+        </div>
+        <div class="star-label-text" id="overallLabel">Lütfen bir puan seçin</div>
+      </div>
+    </div>
+
+    <!-- DETAY PUANLARI -->
+    <div class="section-card">
+      <div class="section-title">Detay Değerlendirme</div>
+      <div class="star-group">
+        <div class="star-row">
+          <span class="star-label">⏰ Zamanında Geldi mi?</span>
+          <div class="stars" id="stars-punctuality" data-key="punctuality">
+            <span class="star empty" onclick="setStar('punctuality',1)">★</span>
+            <span class="star empty" onclick="setStar('punctuality',2)">★</span>
+            <span class="star empty" onclick="setStar('punctuality',3)">★</span>
+            <span class="star empty" onclick="setStar('punctuality',4)">★</span>
+            <span class="star empty" onclick="setStar('punctuality',5)">★</span>
+          </div>
+        </div>
+        <div class="star-row">
+          <span class="star-label">🔧 İşçilik Kalitesi</span>
+          <div class="stars" id="stars-quality" data-key="quality">
+            <span class="star empty" onclick="setStar('quality',1)">★</span>
+            <span class="star empty" onclick="setStar('quality',2)">★</span>
+            <span class="star empty" onclick="setStar('quality',3)">★</span>
+            <span class="star empty" onclick="setStar('quality',4)">★</span>
+            <span class="star empty" onclick="setStar('quality',5)">★</span>
+          </div>
+        </div>
+        <div class="star-row">
+          <span class="star-label">💬 İletişim ve Bilgilendirme</span>
+          <div class="stars" id="stars-communication" data-key="communication">
+            <span class="star empty" onclick="setStar('communication',1)">★</span>
+            <span class="star empty" onclick="setStar('communication',2)">★</span>
+            <span class="star empty" onclick="setStar('communication',3)">★</span>
+            <span class="star empty" onclick="setStar('communication',4)">★</span>
+            <span class="star empty" onclick="setStar('communication',5)">★</span>
+          </div>
+        </div>
+        <div class="star-row">
+          <span class="star-label">🧹 Çalışma Sonrası Temizlik</span>
+          <div class="stars" id="stars-cleanliness" data-key="cleanliness">
+            <span class="star empty" onclick="setStar('cleanliness',1)">★</span>
+            <span class="star empty" onclick="setStar('cleanliness',2)">★</span>
+            <span class="star empty" onclick="setStar('cleanliness',3)">★</span>
+            <span class="star empty" onclick="setStar('cleanliness',4)">★</span>
+            <span class="star empty" onclick="setStar('cleanliness',5)">★</span>
+          </div>
+        </div>
+        <div class="star-row">
+          <span class="star-label">💰 Fiyat / Performans</span>
+          <div class="stars" id="stars-value" data-key="value">
+            <span class="star empty" onclick="setStar('value',1)">★</span>
+            <span class="star empty" onclick="setStar('value',2)">★</span>
+            <span class="star empty" onclick="setStar('value',3)">★</span>
+            <span class="star empty" onclick="setStar('value',4)">★</span>
+            <span class="star empty" onclick="setStar('value',5)">★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAVSİYE -->
+    <div class="section-card">
+      <div class="section-title">BigelUsta'yı Tavsiye Eder misiniz?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,'recommend','yes')">
+          <div class="option-dot"></div>
+          <span class="option-icon">👍</span>
+          <span class="option-text">Evet, kesinlikle tavsiye ederim</span>
+        </div>
+        <div class="option" onclick="selectOption(this,'recommend','maybe')">
+          <div class="option-dot"></div>
+          <span class="option-icon">🤔</span>
+          <span class="option-text">Belki, duruma göre değişir</span>
+        </div>
+        <div class="option" onclick="selectOption(this,'recommend','no')">
+          <div class="option-dot"></div>
+          <span class="option-icon">👎</span>
+          <span class="option-text">Hayır, önermem</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SORUN VAR MI? -->
+    <div class="section-card">
+      <div class="section-title">Herhangi Bir Sorun Yaşadınız mı?</div>
+      <div class="options">
+        <div class="option" onclick="selectOption(this,'problem','none');hideProblemDetail()">
+          <div class="option-dot"></div>
+          <span class="option-icon">✅</span>
+          <span class="option-text">Hayır, her şey mükemmeldi</span>
+        </div>
+        <div class="option" onclick="selectOption(this,'problem','minor');showProblemDetail()">
+          <div class="option-dot"></div>
+          <span class="option-icon">⚠️</span>
+          <span class="option-text">Küçük bir sorun vardı ama çözüldü</span>
+        </div>
+        <div class="option" onclick="selectOption(this,'problem','major');showProblemDetail()">
+          <div class="option-dot"></div>
+          <span class="option-icon">❌</span>
+          <span class="option-text">Önemli bir sorun yaşadım</span>
+        </div>
+      </div>
+      <div id="problemDetail" style="display:none;margin-top:12px">
+        <div class="form-group">
+          <label>Sorunu Kısaca Açıklayın</label>
+          <textarea id="problemText" placeholder="Yaşadığınız sorunu belirtin..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- YORUM -->
+    <div class="section-card">
+      <div class="section-title">Yorumunuz</div>
+      <div class="form-group">
+        <label>Deneyiminizi Paylaşın (İsteğe Bağlı)</label>
+        <textarea id="comment" placeholder="Kurulum süreci, usta, hizmet kalitesi hakkındaki düşüncelerinizi yazın..." maxlength="500" oninput="updateCharCount()"></textarea>
+        <div class="char-count"><span id="charCount">0</span>/500</div>
+      </div>
+    </div>
+
+    <!-- FOTOĞRAF -->
+    <div class="section-card">
+      <div class="section-title">Kurulum Fotoğrafı (İsteğe Bağlı)</div>
+      <label class="photo-upload" id="photoUpload" for="photoInput">
+        <span style="font-size:1.8rem">📷</span>
+        <div style="font-size:.85rem;font-weight:600;color:var(--text);margin-top:6px">Fotoğraf Ekle</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:2px">Kurulum sonucunu gösterin</div>
+        <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotos(this)"/>
+      </label>
+      <div class="photo-list" id="photoList"></div>
+    </div>
+
+    <div class="alert error" id="formAlert">Lütfen zorunlu alanları doldurun.</div>
+
+    <button class="submit-btn" onclick="submitSurvey()">
+      ⭐ Değerlendirmeyi Gönder
+    </button>
+    <div style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:10px">
+      🔒 Değerlendirmeniz BigelUsta tarafından görülecektir
+    </div>
+  </div>
+
+  <!-- BAŞARILI -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">Değerlendirmeniz Alındı!</div>
+    <div class="success-sub">Geri bildiriminiz için teşekkür ederiz. Hizmetimizi geliştirmek için her görüş bizim için çok değerli.</div>
+    <div class="rating-summary" id="ratingSummary"></div>
+    <a href="https://wa.me/905XXXXXXXXX" class="wa-btn">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      BigelUsta'ya Yazın
+    </a>
+  </div>
+
+</div>
+
+<script>
+// URL'den iş bilgilerini al
+const params = new URLSearchParams(location.search);
+const jobId = params.get('job') || ('JOB-' + Date.now());
+const customerName = params.get('name') || 'Değerli Müşterimiz';
+const jobDate = params.get('date') || new Date().toLocaleDateString('tr-TR');
+const electricianId = params.get('usta') || 'U001';
+const electricianName = params.get('ustaName') || 'BigelUsta Ekibi';
+
+document.getElementById('ji-name').textContent = customerName;
+document.getElementById('ji-date').textContent = jobDate;
+
+// Puan state
+const ratings = { overall:0, punctuality:0, quality:0, communication:0, cleanliness:0, value:0 };
+const selectedOptions = { recommend:'', problem:'' };
+const overallLabels = ['','Çok Kötü 😞','Kötü 😕','Orta 😐','İyi 😊','Mükemmel 🤩'];
+
+function setOverall(val){
+  ratings.overall = val;
+  document.querySelectorAll('.big-star').forEach((s,i)=>{
+    s.classList.toggle('filled', i<val);
+    s.classList.toggle('empty', i>=val);
+    s.style.color = i<val ? '#f59e0b' : '';
+  });
+  document.getElementById('overallLabel').textContent = overallLabels[val];
+}
+
+function setStar(key, val){
+  ratings[key] = val;
+  const container = document.getElementById('stars-'+key);
+  container.querySelectorAll('.star').forEach((s,i)=>{
+    s.classList.toggle('filled', i<val);
+    s.classList.toggle('empty', i>=val);
+    s.style.color = i<val ? '#f59e0b' : '';
+  });
+}
+
+function selectOption(el, group, val){
+  selectedOptions[group] = val;
+  el.closest('.options').querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function showProblemDetail(){ document.getElementById('problemDetail').style.display='block'; }
+function hideProblemDetail(){ document.getElementById('problemDetail').style.display='none'; }
+
+function updateCharCount(){
+  const len = document.getElementById('comment').value.length;
+  document.getElementById('charCount').textContent = len;
+}
+
+function handlePhotos(input){
+  const list = document.getElementById('photoList');
+  Array.from(input.files).forEach(file=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const thumb = document.createElement('div');
+      thumb.className='photo-thumb';
+      thumb.innerHTML=`<img src="${e.target.result}"/><button class="remove" onclick="this.parentNode.remove()">✕</button>`;
+      list.appendChild(thumb);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function submitSurvey(){
+  const alert = document.getElementById('formAlert');
+  if(!ratings.overall){ alert.textContent='Lütfen genel puanı seçin.'; alert.classList.add('show'); return; }
+  if(!selectedOptions.recommend){ alert.textContent='Lütfen tavsiye seçeneğini seçin.'; alert.classList.add('show'); return; }
+  alert.classList.remove('show');
+
+  // Veriyi kaydet
+  const survey = {
+    id: 'SVY-' + Date.now(),
+    jobId, customerName, jobDate, electricianId, electricianName,
+    submittedAt: new Date().toISOString(),
+    ratings: { ...ratings },
+    recommend: selectedOptions.recommend,
+    problem: selectedOptions.problem,
+    problemText: document.getElementById('problemText').value,
+    comment: document.getElementById('comment').value,
+    status: 'new'
+  };
+
+  // LocalStorage'a kaydet
+  const existing = JSON.parse(localStorage.getItem('bigelusta_surveys') || '[]');
+  existing.unshift(survey);
+  localStorage.setItem('bigelusta_surveys', JSON.stringify(existing));
+
+  // Başarı ekranı
+  document.getElementById('surveyForm').style.display='none';
+  const ss = document.getElementById('successScreen');
+  ss.classList.add('show');
+
+  const rKeys = {overall:'Genel',punctuality:'Zamanında Gelme',quality:'İşçilik Kalitesi',communication:'İletişim',cleanliness:'Temizlik',value:'Fiyat/Performans'};
+  let summaryHTML = '';
+  Object.entries(ratings).forEach(([k,v])=>{
+    if(v>0) summaryHTML+=`<div class="rs-row"><span class="rs-key">${rKeys[k]}</span><span class="rs-stars">${'★'.repeat(v)}${'☆'.repeat(5-v)}</span></div>`;
+  });
+  document.getElementById('ratingSummary').innerHTML = summaryHTML;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>

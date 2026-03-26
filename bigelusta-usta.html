@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+<meta name="theme-color" content="#1a56db"/>
+<title>BigelUsta — Usta Paneli</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#1a56db;--blue-pale:#eff6ff;--blue-bg:rgba(26,86,219,.07);--blue-br:rgba(26,86,219,.18);
+  --gold:#c8900a;--gold-pale:#f5c84a;--gold-bg:rgba(200,144,10,.07);
+  --green:#059669;--green-bg:rgba(5,150,105,.07);--green-br:rgba(5,150,105,.2);
+  --red:#dc2626;--red-bg:rgba(220,38,38,.07);--red-br:rgba(220,38,38,.2);
+  --orange:#d97706;--orange-bg:rgba(217,119,6,.07);--orange-br:rgba(217,119,6,.2);
+  --purple:#7c3aed;--purple-bg:rgba(124,58,237,.07);--purple-br:rgba(124,58,237,.2);
+  --wa:#25d366;--wa-bg:rgba(37,211,102,.07);--wa-br:rgba(37,211,102,.2);
+  --bg:#f1f5ff;--white:#fff;--text:#0f172a;--text2:#334155;--muted:#64748b;
+  --border:#dbeafe;--border2:#e2e8f0;
+  --grad:linear-gradient(135deg,#1a56db,#0891b2);
+  --shadow:0 2px 12px rgba(26,86,219,.08);--shadow-lg:0 8px 32px rgba(26,86,219,.13);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;padding-bottom:80px}
+
+/* TOP NAV */
+.topnav{background:var(--grad);padding:0 16px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,86,219,.3)}
+.nav-brand{display:flex;align-items:center;gap:8px;color:#fff}
+.nav-logo{font-weight:800;font-size:1.1rem}
+.nav-logo span{color:var(--gold-pale)}
+.nav-tag{font-size:.62rem;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:100px;color:rgba(255,255,255,.85);font-weight:600}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-bell{position:relative;cursor:pointer}
+.nav-bell-icon{font-size:1.2rem}
+.notif-dot{position:absolute;top:-2px;right:-2px;width:10px;height:10px;background:var(--red);border-radius:50%;border:2px solid transparent;animation:pulse 1.5s infinite}
+.usta-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.15);padding:5px 10px;border-radius:100px;cursor:pointer}
+.usta-chip-av{width:26px;height:26px;background:rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#fff}
+.usta-chip-name{font-size:.82rem;font-weight:700;color:#fff}
+
+/* USTA SEÇİMİ (demo) */
+.usta-select{background:var(--white);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:12px}
+.usta-select label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.usta-select select{padding:6px 10px;border:1.5px solid var(--border2);border-radius:8px;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:.86rem;outline:none;cursor:pointer;flex:1;max-width:220px}
+.usta-select select:focus{border-color:var(--blue)}
+.demo-note{font-size:.68rem;color:var(--muted);flex:1}
+
+/* NOTIFICATIONS PANEL */
+.notif-panel{position:fixed;top:58px;right:0;width:min(360px,100vw);background:var(--white);border-left:1px solid var(--border);border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg);z-index:200;max-height:70vh;overflow-y:auto;display:none}
+.notif-panel.open{display:block}
+.notif-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.notif-title{font-size:.9rem;font-weight:800;color:var(--text)}
+.notif-clear{font-size:.75rem;color:var(--blue);cursor:pointer;font-weight:600;background:none;border:none}
+.notif-item{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;display:flex;gap:10px;align-items:flex-start}
+.notif-item:hover{background:var(--blue-pale)}
+.notif-item.unread{background:var(--blue-pale);border-left:3px solid var(--blue)}
+.notif-item.warn{background:rgba(217,119,6,.05);border-left:3px solid var(--orange)}
+.notif-item.success{background:var(--green-bg);border-left:3px solid var(--green)}
+.notif-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.notif-msg{font-size:.82rem;color:var(--text2);font-weight:600;margin-bottom:2px;line-height:1.4}
+.notif-time{font-size:.7rem;color:var(--muted)}
+.notif-empty{padding:24px;text-align:center;color:var(--muted);font-size:.84rem}
+
+/* MAIN */
+.main{max-width:720px;margin:0 auto;padding:16px}
+
+/* PROFILE CARD */
+.profile-card{background:var(--grad);border-radius:16px;padding:18px 20px;margin-bottom:16px;color:#fff;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-lg)}
+.profile-av{width:52px;height:52px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.profile-name{font-size:1.15rem;font-weight:800;margin-bottom:2px}
+.profile-detail{font-size:.78rem;opacity:.8}
+.profile-stats{display:flex;gap:16px;margin-left:auto;flex-shrink:0}
+.ps-item{text-align:center}
+.ps-val{font-size:1.3rem;font-weight:800;line-height:1}
+.ps-lbl{font-size:.6rem;opacity:.7;text-transform:uppercase;letter-spacing:.05em}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.sc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;box-shadow:var(--shadow);text-align:center}
+.sc-val{font-size:1.7rem;font-weight:800;line-height:1;margin-bottom:3px}
+.sc-lbl{font-size:.66rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+
+/* TABS */
+.tabs{display:flex;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:16px;gap:2px;box-shadow:var(--shadow);overflow-x:auto}
+.tab{flex:1;padding:8px 10px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer;border-radius:9px;transition:all .2s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:4px}
+.tab.active{background:var(--grad);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.25)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* JOB CARDS */
+.job-card{background:var(--white);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow);transition:all .25s}
+.job-card:hover{border-color:var(--blue-br);box-shadow:var(--shadow-lg)}
+.job-card.urgent{border-color:var(--orange-br)}
+.job-card.done-card{opacity:.75;border-color:var(--green-br)}
+.jc-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.jc-id{font-size:.68rem;font-family:monospace;color:var(--muted);margin-bottom:3px}
+.jc-customer{font-size:1rem;font-weight:800;color:var(--text)}
+.jc-sub{font-size:.75rem;color:var(--muted);margin-top:2px}
+.jc-status{flex-shrink:0}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:.7rem;font-weight:700;white-space:nowrap}
+
+/* JOB INFO GRID */
+.jc-body{padding:14px 16px}
+.jc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.jc-item{background:var(--bg);border-radius:9px;padding:9px 11px;border:1px solid var(--border2)}
+.jc-item.full{grid-column:span 2}
+.jc-item.highlight{background:var(--blue-pale);border-color:var(--blue-br)}
+.jc-item.device{background:var(--gold-bg);border-color:rgba(200,144,10,.2)}
+.jc-item.warn{background:var(--orange-bg);border-color:var(--orange-br)}
+.ji-key{font-size:.62rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.ji-val{font-size:.84rem;font-weight:700;color:var(--text);line-height:1.3}
+
+/* COUNTDOWN */
+.countdown{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-size:.78rem;font-weight:700;margin-bottom:12px}
+.countdown.today{background:var(--red-bg);color:var(--red);border:1px solid var(--red-br)}
+.countdown.tomorrow{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-br)}
+.countdown.future{background:var(--green-bg);color:var(--green);border:1px solid var(--green-br)}
+.countdown.done{background:var(--bg);color:var(--muted);border:1px solid var(--border2)}
+
+/* JOB ACTIONS */
+.jc-actions{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--border);background:var(--bg)}
+.btn{padding:8px 14px;border-radius:9px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;border:none}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.2)}.btn-primary:hover{opacity:.9}
+.btn-ghost{background:var(--white);border:1.5px solid var(--border2);color:var(--text2)}.btn-ghost:hover{border-color:var(--blue-br);color:var(--blue)}
+.btn-wa{background:var(--wa-bg);border:1.5px solid var(--wa-br);color:var(--wa)}.btn-wa:hover{background:rgba(37,211,102,.14)}
+.btn-orange{background:var(--orange-bg);border:1.5px solid var(--orange-br);color:var(--orange)}.btn-orange:hover{background:rgba(217,119,6,.14)}
+.btn-sm{padding:6px 12px;font-size:.74rem}
+.btn-full{width:100%;justify-content:center}
+
+/* PHOTO UPLOAD IN JOB */
+.photo-zone{border:2px dashed var(--border2);border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;margin-top:8px}
+.photo-zone:hover{border-color:var(--blue-br);background:var(--blue-pale)}
+.photo-zone input{display:none}
+.photo-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.photo-thumb{width:60px;height:60px;border-radius:7px;overflow:hidden;border:1px solid var(--border2);position:relative}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+
+/* MATERIAL REQUEST FORM */
+.mat-form{background:var(--bg);border:1.5px solid var(--border2);border-radius:12px;padding:14px;margin-top:10px;display:none}
+.mat-form.open{display:block}
+.mat-item{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.mat-item input,.mat-item select{flex:1;padding:8px 10px;border:1.5px solid var(--border2);border-radius:8px;background:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;outline:none;color:var(--text)}
+.mat-item input:focus,.mat-item select:focus{border-color:var(--blue)}
+.mat-item .remove-mat{width:28px;height:28px;border:1px solid var(--red-br);background:var(--red-bg);color:var(--red);border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+
+/* DRAWER */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:300;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.sheet{background:var(--white);width:100%;max-width:520px;max-height:90vh;border-radius:20px 20px 0 0;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,.2)}
+.sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:100px;margin:12px auto 0}
+.sheet-head{padding:14px 20px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sheet-title{font-size:1rem;font-weight:800;color:var(--text)}
+.sheet-close{width:28px;height:28px;border:none;background:var(--bg);border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.sheet-body{padding:16px 20px 20px}
+
+/* ADMIN MESSAGE */
+.admin-msg-form{background:var(--white);border:1.5px solid var(--blue-br);border-radius:12px;padding:14px;margin-top:10px}
+.msg-input{width:100%;padding:10px 12px;border:1.5px solid var(--border2);border-radius:9px;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;resize:vertical;min-height:80px;outline:none;color:var(--text)}
+.msg-input:focus{border-color:var(--blue)}
+.msg-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.msg-bubble{padding:10px 13px;border-radius:10px;font-size:.82rem;line-height:1.55}
+.msg-bubble.from-usta{background:var(--blue-bg);border:1px solid var(--blue-br);border-radius:10px 10px 2px 10px;align-self:flex-end;max-width:85%}
+.msg-bubble.from-admin{background:var(--bg);border:1px solid var(--border2);border-radius:10px 10px 10px 2px;align-self:flex-start;max-width:85%}
+.msg-meta{font-size:.65rem;color:var(--muted);margin-top:3px}
+
+/* REVIEW SUMMARY */
+.review-sum{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.rs-overall{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.rs-big{font-size:2.5rem;font-weight:800;color:var(--gold)}
+.rs-stars-big{font-size:1.4rem;color:var(--gold-pale);letter-spacing:2px}
+.rs-count{font-size:.8rem;color:var(--muted)}
+.rs-bar{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.rs-bar-label{font-size:.75rem;color:var(--text2);width:110px;font-weight:600;flex-shrink:0}
+.rs-bar-track{flex:1;height:8px;background:var(--border2);border-radius:100px;overflow:hidden}
+.rs-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#f59e0b)}
+.rs-bar-score{font-size:.75rem;font-weight:800;color:var(--gold);width:26px;text-align:right}
+
+/* REVIEW CARDS */
+.rv-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.rv-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.rv-customer{font-size:.9rem;font-weight:800;color:var(--text)}
+.rv-date{font-size:.7rem;color:var(--muted)}
+.rv-stars{color:var(--gold-pale);font-size:1rem;letter-spacing:2px;margin-bottom:6px}
+.rv-comment{font-size:.82rem;color:var(--text2);font-style:italic;line-height:1.6;padding:8px 10px;background:var(--bg);border-radius:7px;border-left:2px solid var(--blue-br)}
+.rv-problem{font-size:.78rem;color:var(--red);padding:6px 10px;background:var(--red-bg);border-radius:7px;margin-top:6px}
+
+/* EMPTY */
+.empty{text-align:center;padding:36px 20px;color:var(--muted)}
+.empty .ei{font-size:2rem;margin-bottom:8px}
+.empty .et{font-size:.88rem;font-weight:600;color:var(--text2);margin-bottom:3px}
+
+/* REMINDER TOAST */
+.toast-container{position:fixed;bottom:72px;left:50%;transform:translateX(-50%);z-index:400;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:min(400px,90vw)}
+.toast{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow-lg);display:flex;align-items:flex-start;gap:10px;pointer-events:all;animation:slideUp .3s ease;width:100%}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.toast.hiding{animation:slideDown .3s ease forwards}
+@keyframes slideDown{to{opacity:0;transform:translateY(20px)}}
+.toast-icon{font-size:1.2rem;flex-shrink:0}
+.toast-body{flex:1}
+.toast-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.toast-msg{font-size:.75rem;color:var(--muted);line-height:1.4}
+.toast-close{background:none;border:none;cursor:pointer;font-size:.9rem;color:var(--muted);flex-shrink:0;padding:0}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -4px 16px rgba(26,86,219,.08)}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;transition:color .2s;color:var(--muted);font-size:.6rem;font-weight:600;gap:3px;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif}
+.bn-item.active{color:var(--blue)}
+.bn-icon{font-size:1.3rem}
+.bn-badge{position:absolute;top:2px;right:50%;transform:translateX(8px);background:var(--red);color:#fff;font-size:.55rem;font-weight:800;padding:1px 4px;border-radius:100px;min-width:14px;text-align:center}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* RESPONSIVE */
+@media(min-width:600px){.bottom-nav{display:none}.tabs{padding:6px}}
+@media(max-width:400px){.jc-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}.sc:last-child{grid-column:span 2}}
+</style>
+</head>
+<body>
+
+<!-- NOTIFICATION PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <span class="notif-title">🔔 Bildirimler</span>
+    <button class="notif-clear" onclick="clearNotifs()">Tümünü Okundu İşaretle</button>
+  </div>
+  <div id="notifList"></div>
+</div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="nav-brand">
+    <span style="font-size:1.1rem">🪖</span>
+    <span class="nav-logo">BiGEL·<span>USTA</span></span>
+    <span class="nav-tag">Usta Paneli</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-bell" onclick="toggleNotif()">
+      <span class="nav-bell-icon">🔔</span>
+      <div class="notif-dot" id="notifDot" style="display:none"></div>
+    </div>
+    <div class="usta-chip" onclick="document.getElementById('ustaSelectArea').scrollIntoView({behavior:'smooth'})">
+      <div class="usta-chip-av" id="navAv">M</div>
+      <span class="usta-chip-name" id="navName">Mehmet Kaya</span>
+    </div>
+  </div>
+</nav>
+
+<!-- USTA SEÇİMİ -->
+<div class="usta-select" id="ustaSelectArea">
+  <label>Usta Hesabı:</label>
+  <select id="ustaSelect" onchange="loadUsta()">
+    <option value="U001">Mehmet Kaya — İstanbul/Kadıköy</option>
+    <option value="U002">Ali Demir — İstanbul/Beşiktaş</option>
+    <option value="U003">Hasan Yıldız — İstanbul/Pendik</option>
+    <option value="U006">Osman Koç — Ankara/Çankaya</option>
+    <option value="U007">Serkan Güneş — İzmir/Konak</option>
+  </select>
+  <span class="demo-note">📱 Gerçek sistemde SMS/WhatsApp ile giriş yapılır</span>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PROFİL KARTI -->
+  <div class="profile-card">
+    <div class="profile-av" id="profileAv">👷</div>
+    <div>
+      <div class="profile-name" id="profileName">Mehmet Kaya</div>
+      <div class="profile-detail" id="profileDetail">İstanbul — Kadıköy, Üsküdar, Ataşehir...</div>
+    </div>
+    <div class="profile-stats">
+      <div class="ps-item"><div class="ps-val" id="psStar">4.8★</div><div class="ps-lbl">Puan</div></div>
+      <div class="ps-item"><div class="ps-val" id="psJobs">0</div><div class="ps-lbl">İş</div></div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="sc"><div class="sc-val" style="color:var(--orange)" id="scActive">0</div><div class="sc-lbl">Aktif İş</div></div>
+    <div class="sc"><div class="sc-val" style="color:var(--green)" id="scDone">0</div><div class="sc-lbl">Tamamlanan</div></div>
+    <div class="sc"><div class="sc-val" style="color:var(--gold)" id="scRating">—</div><div class="sc-lbl">Ortalama</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" id="mainTabs">
+    <button class="tab active" onclick="showTab('islerim')">🔧 İşlerim</button>
+    <button class="tab" onclick="showTab('takvim')">📅 Takvim</button>
+    <button class="tab" onclick="showTab('admin-msg')">💬 Admin</button>
+    <button class="tab" onclick="showTab('degerlendirmeler')">⭐ Yorumlar</button>
+  </div>
+
+  <!-- TAB: İŞLERİM -->
+  <div class="tab-panel active" id="panel-islerim">
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="filterJobs('all')" id="fjAll" style="border-color:var(--blue);color:var(--blue)">Tümü</button>
+      <button class="btn btn-ghost btn-sm" onclick="filterJobs('active')" id="fjActive">Aktif</button>
+      <button class="btn btn-ghost btn-sm" onclick="filterJobs('done')" id="fjDone">Tamamlanan</button>
+    </div>
+    <div id="jobList"></div>
+  </div>
+
+  <!-- TAB: TAKVİM -->
+  <div class="tab-panel" id="panel-takvim">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-bottom:12px">
+      <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:14px">📅 Bu Hafta Randevularım</div>
+      <div id="calendarView"></div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)">
+      <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:12px">🗓 Tüm Randevular</div>
+      <div id="allAppointments"></div>
+    </div>
+  </div>
+
+  <!-- TAB: ADMİN MESAJ -->
+  <div class="tab-panel" id="panel-admin-msg">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow);margin-bottom:12px">
+      <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:4px">💬 Admin ile İletişim</div>
+      <div style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Sorularınızı, sorunlarınızı veya malzeme taleplerinizi buradan iletin.</div>
+      <div class="admin-msg-form">
+        <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" onclick="setMsgType('genel')" id="mt-genel" style="border-color:var(--blue);color:var(--blue)">💬 Genel</button>
+          <button class="btn btn-ghost btn-sm" onclick="setMsgType('malzeme')" id="mt-malzeme">📦 Malzeme Talebi</button>
+          <button class="btn btn-ghost btn-sm" onclick="setMsgType('sorun')" id="mt-sorun">⚠️ Sorun Bildir</button>
+          <button class="btn btn-ghost btn-sm" onclick="setMsgType('bilgi')" id="mt-bilgi">ℹ️ Bilgi Talebi</button>
+        </div>
+        <div id="jobRefSelector" style="margin-bottom:8px">
+          <select id="msgJobRef" style="width:100%;padding:8px 10px;border:1.5px solid var(--border2);border-radius:8px;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.82rem;outline:none;color:var(--text)">
+            <option value="">İş seçin (opsiyonel)</option>
+          </select>
+        </div>
+        <textarea class="msg-input" id="msgInput" placeholder="Mesajınızı yazın..."></textarea>
+        <div id="materialFields" style="display:none;margin-top:10px">
+          <div style="font-size:.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Talep Edilen Malzemeler</div>
+          <div id="matList"></div>
+          <button class="btn btn-ghost btn-sm" onclick="addMatRow()" style="margin-top:6px">+ Malzeme Ekle</button>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn btn-primary" onclick="sendMsg()" style="flex:1">Gönder ✉️</button>
+          <a class="btn btn-wa" id="adminWaBtn" href="https://wa.me/905XXXXXXXXX?text=Merhaba+Admin" target="_blank">
+            <svg style="width:14px;height:14px;fill:var(--wa)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WA
+          </a>
+        </div>
+      </div>
+      <!-- Mesaj listesi -->
+      <div style="margin-top:16px">
+        <div style="font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px">Mesaj Geçmişi</div>
+        <div id="msgList" class="msg-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: DEĞERLENDİRMELER -->
+  <div class="tab-panel" id="panel-degerlendirmeler">
+    <div class="review-sum" id="reviewSummary"></div>
+    <div id="reviewList"></div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="bn-item active" onclick="showTab('islerim');setBnActive(0)" style="position:relative">
+    <span class="bn-icon">🔧</span>İşlerim
+    <span class="bn-badge" id="bnBadge" style="display:none">0</span>
+  </button>
+  <button class="bn-item" onclick="showTab('takvim');setBnActive(1)"><span class="bn-icon">📅</span>Takvim</button>
+  <button class="bn-item" onclick="showTab('admin-msg');setBnActive(2)"><span class="bn-icon">💬</span>Admin</button>
+  <button class="bn-item" onclick="showTab('degerlendirmeler');setBnActive(3)"><span class="bn-icon">⭐</span>Yorumlar</button>
+</nav>
+
+<!-- DRAWER: İŞ DETAYI -->
+<div class="overlay" id="jobDrawer" onclick="if(event.target===this)closeDrawer()">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <span class="sheet-title" id="drawerTitle">İş Detayı</span>
+      <button class="sheet-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="sheet-body" id="drawerBody"></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="bigelusta-data.js"></script>
+<script>
+// ── STATE ──
+let currentUstaId = 'U001';
+let currentFilter = 'all';
+let msgType = 'genel';
+let notifications = [];
+let matCount = 0;
+let jobPhotos = {};
+
+// ── INIT ──
+function init(){
+  BG.seedAppointments();
+  BG.seedOrders();
+  loadUsta();
+  scheduleReminders();
+  setInterval(()=>{ loadUsta(); checkReminders(); }, 30000);
+  document.addEventListener('click', e=>{
+    if(!document.getElementById('notifPanel').contains(e.target) && !document.querySelector('.nav-bell').contains(e.target)){
+      document.getElementById('notifPanel').classList.remove('open');
+    }
+  });
+}
+
+// ── USTA YÜKLE ──
+function loadUsta(){
+  currentUstaId = document.getElementById('ustaSelect').value;
+  const u = BG.ustaById(currentUstaId);
+  if(!u) return;
+
+  // Nav & Profile güncelle
+  document.getElementById('navAv').textContent = u.ad.charAt(0);
+  document.getElementById('navName').textContent = u.ad.split(' ')[0];
+  document.getElementById('profileAv').textContent = '👷';
+  document.getElementById('profileName').textContent = u.ad;
+  document.getElementById('profileDetail').textContent = u.il + ' — ' + u.ilceler.slice(0,3).join(', ') + (u.ilceler.length>3?'...':'');
+  document.getElementById('psStar').textContent = u.puan + '★';
+
+  const myOrders = getMyOrders();
+  document.getElementById('psJobs').textContent = myOrders.length;
+
+  const active = myOrders.filter(o=>!['kapandi','iptal','tamamlandi','anket_bekleniyor'].includes(o.durum)).length;
+  const done = myOrders.filter(o=>['tamamlandi','anket_bekleniyor','kapandi'].includes(o.durum)).length;
+  document.getElementById('scActive').textContent = active;
+  document.getElementById('scDone').textContent = done;
+
+  const surveys = getMysurveys();
+  const avg = surveys.length ? (surveys.reduce((a,s)=>a+s.ratings.overall,0)/surveys.length).toFixed(1)+'★' : '—';
+  document.getElementById('scRating').textContent = avg;
+
+  // Job ref dropdown güncelle
+  const sel = document.getElementById('msgJobRef');
+  sel.innerHTML = '<option value="">İş seçin (opsiyonel)</option>';
+  myOrders.forEach(o=>{
+    const opt = document.createElement('option');
+    opt.value = o.id;
+    opt.textContent = `${o.id} — ${o.musteri} (${o.tarih})`;
+    sel.appendChild(opt);
+  });
+
+  // Badge
+  const bnB = document.getElementById('bnBadge');
+  if(active>0){bnB.textContent=active;bnB.style.display='block';}else{bnB.style.display='none';}
+
+  renderJobs();
+  renderCalendar();
+  renderMessages();
+  renderReviews();
+  renderNotifications();
+}
+
+function getMyOrders(){
+  return BG.getOrders().filter(o=>o.ustaId===currentUstaId);
+}
+function getMysurveys(){
+  return BG.getSurveys().filter(s=>s.electricianId===currentUstaId);
+}
+
+// ── İŞ LİSTESİ ──
+function filterJobs(f){
+  currentFilter = f;
+  ['all','active','done'].forEach(k=>{
+    const btn = document.getElementById('fj'+k.charAt(0).toUpperCase()+k.slice(1));
+    if(btn) btn.style.cssText = k===f ? 'border-color:var(--blue);color:var(--blue)' : '';
+  });
+  renderJobs();
+}
+
+function renderJobs(){
+  let orders = getMyOrders();
+  if(currentFilter==='active') orders = orders.filter(o=>!['kapandi','iptal','tamamlandi','anket_bekleniyor'].includes(o.durum));
+  if(currentFilter==='done') orders = orders.filter(o=>['tamamlandi','anket_bekleniyor','kapandi'].includes(o.durum));
+  orders.sort((a,b)=>new Date(a.tarih.split('.').reverse().join('-')+' '+a.saat)-new Date(b.tarih.split('.').reverse().join('-')+' '+b.saat));
+
+  const container = document.getElementById('jobList');
+  if(!orders.length){
+    container.innerHTML='<div class="empty"><div class="ei">🔧</div><div class="et">'+
+      (currentFilter==='active'?'Aktif işiniz yok':currentFilter==='done'?'Tamamlanan iş yok':'Atanan iş yok')+
+      '</div><div>Admin tarafından iş atandığında burada görünecek.</div></div>';
+    return;
+  }
+
+  container.innerHTML = orders.map(o=>{
+    const d = BG.durumlar[o.durum]||{label:o.durum,color:'#666',bg:'#eee',icon:'•'};
+    const countdown = getCountdown(o.tarih, o.saat);
+    const isDone = ['tamamlandi','anket_bekleniyor','kapandi'].includes(o.durum);
+    const hasDevice = o.cihaz && o.cihaz!=='Seçilmedi' && o.cihaz!=='Kendi cihazı';
+    const surveys = getMysurveys();
+    const survey = surveys.find(s=>s.jobId===o.aptId||s.jobId===o.id);
+
+    return `<div class="job-card ${countdown.urgent&&!isDone?'urgent':''} ${isDone?'done-card':''}">
+      <div class="jc-header">
+        <div>
+          <div class="jc-id">${o.id} ${o.aptId?'· '+o.aptId:''}</div>
+          <div class="jc-customer">${o.musteri}</div>
+          <div class="jc-sub">${o.telefon} · ${o.il} / ${o.ilce||'—'}</div>
+        </div>
+        <div class="jc-status">
+          <span class="status-badge" style="background:${d.bg};color:${d.color}">${d.icon} ${d.label}</span>
+        </div>
+      </div>
+      <div class="jc-body">
+        <div class="countdown ${countdown.cls}">${countdown.icon} ${countdown.text}</div>
+        <div class="jc-grid">
+          <div class="jc-item highlight"><div class="ji-key">📅 Randevu</div><div class="ji-val">${o.tarih} — ${o.saat}</div></div>
+          <div class="jc-item"><div class="ji-key">📍 Konum</div><div class="ji-val">${o.il} / ${o.ilce||'—'}</div></div>
+          <div class="jc-item"><div class="ji-key">🚗 Araç</div><div class="ji-val">${o.arac||'—'}</div></div>
+          <div class="jc-item"><div class="ji-key">🏠 Kurulum Yeri</div><div class="ji-val">${o.kurulumYeri||'—'}</div></div>
+          <div class="jc-item ${o.faz&&o.faz.includes('Bilmiyorum')?'warn':''}">
+            <div class="ji-key">⚡ Faz ${o.faz&&o.faz.includes('Bilmiyorum')?'⚠️':''}</div>
+            <div class="ji-val">${o.faz&&o.faz.includes('Üç')?'3 Faz (Trifaze)':o.faz&&o.faz.includes('Mono')?'1 Faz (Monofaze)':'Bilinmiyor — Yerinde kontrol et'}</div>
+          </div>
+          <div class="jc-item"><div class="ji-key">📏 Kablo Mesafesi</div><div class="ji-val">${o.mesafe||'—'}</div></div>
+          ${hasDevice?`<div class="jc-item device full"><div class="ji-key">🔌 Müşteri Satın Aldığı Cihaz</div><div class="ji-val">${o.cihaz}</div></div>`:''}
+          ${o.notlar?`<div class="jc-item full"><div class="ji-key">📝 Müşteri Notu</div><div class="ji-val">${o.notlar}</div></div>`:''}
+          ${o.adminNotu?`<div class="jc-item full highlight"><div class="ji-key">👤 Admin Talimatı</div><div class="ji-val">${o.adminNotu}</div></div>`:''}
+        </div>
+        ${survey?`<div style="padding:10px;background:var(--gold-bg);border:1px solid rgba(200,144,10,.2);border-radius:9px;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:.8rem;font-weight:600;color:var(--gold)">⭐ Müşteri Değerlendirmesi</span>
+          <span style="color:var(--gold-pale);font-size:1rem;letter-spacing:2px">${'★'.repeat(survey.ratings.overall)}${'☆'.repeat(5-survey.ratings.overall)}</span>
+        </div>`:''}
+      </div>
+      <div class="jc-actions">
+        <a class="btn btn-wa btn-sm" href="https://wa.me/${o.telefon.replace(/\D/g,'')}" target="_blank">
+          <svg style="width:13px;height:13px;fill:var(--wa)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Müşteriyi Ara
+        </a>
+        ${!isDone?`<button class="btn btn-orange btn-sm" onclick="openMatRequest('${o.id}')">📦 Malzeme Talep Et</button>`:''}
+        ${!isDone?`<button class="btn btn-ghost btn-sm" onclick="openPhotoUpload('${o.id}')">📸 Fotoğraf Yükle</button>`:''}
+        <button class="btn btn-primary btn-sm" onclick="openJobDetail('${o.id}')" style="margin-left:auto">Detay →</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── TAKVİM ──
+function renderCalendar(){
+  const orders = getMyOrders().filter(o=>!['iptal','kapandi'].includes(o.durum));
+  const today = new Date();
+  const week = [];
+  for(let i=0;i<7;i++){
+    const d = new Date(today);
+    d.setDate(today.getDate()+i);
+    week.push(d);
+  }
+
+  const dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+  document.getElementById('calendarView').innerHTML = week.map(d=>{
+    const dStr = d.toLocaleDateString('tr-TR');
+    const dayOrders = orders.filter(o=>o.tarih===dStr);
+    const isToday = d.toDateString()===today.toDateString();
+    return `<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;padding:10px 12px;background:${isToday?'var(--blue-pale)':dayOrders.length?'var(--bg)':'transparent'};border-radius:10px;border:${isToday?'1.5px solid var(--blue-br)':'1px solid transparent'}">
+      <div style="width:44px;text-align:center;flex-shrink:0">
+        <div style="font-size:.65rem;font-weight:700;color:${isToday?'var(--blue)':'var(--muted)'};text-transform:uppercase">${dayNames[d.getDay()]}</div>
+        <div style="font-size:1.2rem;font-weight:800;color:${isToday?'var(--blue)':'var(--text)'}">${d.getDate()}</div>
+      </div>
+      <div style="flex:1">
+        ${dayOrders.length?dayOrders.map(o=>`
+          <div style="padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer" onclick="openJobDetail('${o.id}')">
+            <div style="font-size:.82rem;font-weight:700;color:var(--text)">${o.saat} — ${o.musteri}</div>
+            <div style="font-size:.72rem;color:var(--muted)">${o.il} / ${o.ilce||'—'} · ${o.kurulumYeri||''}</div>
+          </div>`).join(''):
+          `<div style="font-size:.78rem;color:var(--muted);padding:4px 0">${isToday?'Bugün için iş yok':'Boş gün'}</div>`}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Tüm randevular listesi
+  document.getElementById('allAppointments').innerHTML = orders.length ?
+    orders.sort((a,b)=>a.tarih.split('.').reverse().join('')-b.tarih.split('.').reverse().join('')).map(o=>{
+      const d = BG.durumlar[o.durum]||{icon:'•',color:'#666'};
+      return `<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;cursor:pointer;background:var(--white)" onclick="openJobDetail('${o.id}')">
+        <span style="font-size:1.2rem">${d.icon}</span>
+        <div style="flex:1">
+          <div style="font-size:.86rem;font-weight:700;color:var(--text)">${o.tarih} ${o.saat} — ${o.musteri}</div>
+          <div style="font-size:.72rem;color:var(--muted)">${o.id} · ${o.il}/${o.ilce||'—'}</div>
+        </div>
+        <span style="font-size:.8rem;font-weight:700;color:${d.color}">${d.label||o.durum}</span>
+      </div>`;
+    }).join('') : '<div class="empty" style="padding:20px"><div class="ei">📅</div><div class="et">Randevu yok</div></div>';
+}
+
+// ── GERI SAYIM ──
+function getCountdown(tarih, saat){
+  try {
+    const parts = tarih.split('.');
+    const dt = new Date(`${parts[2]}-${parts[1]}-${parts[0]}T${saat}:00`);
+    const now = new Date();
+    const diff = dt - now;
+    if(diff < 0) return {text:'Geçti', icon:'🔒', cls:'done', urgent:false};
+    const hours = Math.floor(diff/3600000);
+    if(hours < 3) return {text:`${hours}s ${Math.floor((diff%3600000)/60000)}dk sonra`, icon:'🚨', cls:'today', urgent:true};
+    if(hours < 24) return {text:`Bugün ${saat}`, icon:'⏰', cls:'today', urgent:true};
+    if(hours < 48) return {text:`Yarın ${saat}`, icon:'📅', cls:'tomorrow', urgent:false};
+    const days = Math.floor(hours/24);
+    return {text:`${days} gün sonra — ${tarih}`, icon:'📅', cls:'future', urgent:false};
+  } catch(e) { return {text:tarih+' '+saat, icon:'📅', cls:'future', urgent:false}; }
+}
+
+// ── İŞ DETAY DRAWER ──
+function openJobDetail(id){
+  const o = BG.getOrders().find(x=>x.id===id);
+  if(!o) return;
+  const d = BG.durumlar[o.durum]||{label:o.durum,color:'#666',bg:'#eee',icon:'•'};
+  const countdown = getCountdown(o.tarih, o.saat);
+  const hasDevice = o.cihaz && o.cihaz!=='Seçilmedi';
+  const surveys = getMysurveys();
+  const survey = surveys.find(s=>s.jobId===o.aptId||s.jobId===o.id);
+
+  document.getElementById('drawerTitle').textContent = o.id + ' — ' + o.musteri;
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="countdown ${countdown.cls}" style="margin-bottom:14px">${countdown.icon} ${countdown.text}</div>
+    <span class="status-badge" style="background:${d.bg};color:${d.color};margin-bottom:16px;display:inline-flex">${d.icon} ${d.label}</span>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      <div style="padding:10px 12px;background:var(--blue-pale);border:1px solid var(--blue-br);border-radius:10px">
+        <div style="font-size:.65rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Müşteri</div>
+        <div style="font-size:.92rem;font-weight:800">${o.musteri}</div>
+        <a href="tel:${o.telefon}" style="font-size:.8rem;color:var(--blue);font-weight:600">${o.telefon}</a>
+        <a class="btn btn-wa btn-sm" href="https://wa.me/${o.telefon.replace(/\D/g,'')}" target="_blank" style="margin-top:6px">
+          <svg style="width:12px;height:12px;fill:var(--wa)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp ile Ulaş
+        </a>
+      </div>
+      ${hasDevice?`<div style="padding:10px 12px;background:var(--gold-bg);border:1px solid rgba(200,144,10,.2);border-radius:10px">
+        <div style="font-size:.65rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">🔌 Müşteri Satın Aldığı Cihaz</div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--text)">${o.cihaz}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:2px">Sisteme kayıtlı cihaz — müşteri teslim aldı</div>
+      </div>`:''}
+      <div style="padding:10px 12px;background:var(--bg);border:1px solid var(--border2);border-radius:10px">
+        <div style="font-size:.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Kurulum Bilgileri</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.8rem">
+          <div><span style="color:var(--muted)">Araç:</span> <strong>${o.arac||'—'}</strong></div>
+          <div><span style="color:var(--muted)">Yer:</span> <strong>${o.kurulumYeri||'—'}</strong></div>
+          <div><span style="color:var(--muted)">Faz:</span> <strong style="color:${o.faz&&o.faz.includes('Bilmiyorum')?'var(--orange)':'inherit'}">${o.faz&&o.faz.includes('Üç')?'3 Faz':o.faz&&o.faz.includes('Mono')?'1 Faz':'⚠️ Bilinmiyor'}</strong></div>
+          <div><span style="color:var(--muted)">Mesafe:</span> <strong>${o.mesafe||'—'}</strong></div>
+        </div>
+        ${o.notlar?`<div style="margin-top:8px;font-size:.78rem;color:var(--text2);font-style:italic">📝 ${o.notlar}</div>`:''}
+        ${o.adminNotu?`<div style="margin-top:6px;padding:6px 8px;background:var(--blue-pale);border-radius:6px;font-size:.78rem;color:var(--blue);font-weight:600">👤 Admin: ${o.adminNotu}</div>`:''}
+      </div>
+    </div>
+
+    <!-- FOTOĞRAF YÜKLE -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">📸 Kurulum Fotoğrafları</div>
+      <label class="photo-zone" for="photoInput-${o.id}">
+        <span style="font-size:1.5rem">📷</span>
+        <div style="font-size:.8rem;font-weight:600;color:var(--text);margin-top:4px">Fotoğraf Çek / Seç</div>
+        <div style="font-size:.7rem;color:var(--muted)">Kurulum öncesi, sırası ve sonrasını belgeleyin</div>
+        <input type="file" id="photoInput-${o.id}" accept="image/*" multiple onchange="handlePhotos(this,'${o.id}')"/>
+      </label>
+      <div class="photo-list" id="photos-${o.id}"></div>
+    </div>
+
+    <!-- DURUM GÜNCELLE -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Durum Güncelle</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="updateMyJobStatus('${o.id}','yolda')">🚗 Yola Çıktım</button>
+        <button class="btn btn-ghost btn-sm" onclick="updateMyJobStatus('${o.id}','kurulum')">🔧 Kuruluma Başladım</button>
+        <button class="btn btn-primary btn-sm" onclick="updateMyJobStatus('${o.id}','tamamlandi')">✅ Kurulum Tamamlandı</button>
+      </div>
+    </div>
+
+    ${survey?`<div style="padding:12px;background:var(--gold-bg);border:1px solid rgba(200,144,10,.2);border-radius:10px">
+      <div style="font-size:.76rem;font-weight:700;color:var(--gold);margin-bottom:6px">⭐ Müşteri Değerlendirmesi</div>
+      <div style="font-size:1.1rem;color:var(--gold-pale);letter-spacing:3px;margin-bottom:4px">${'★'.repeat(survey.ratings.overall)}${'☆'.repeat(5-survey.ratings.overall)}</div>
+      ${survey.comment?`<div style="font-size:.8rem;font-style:italic;color:var(--text2)">"${survey.comment}"</div>`:''}
+    </div>`:''}
+  `;
+  document.getElementById('jobDrawer').classList.add('open');
+}
+
+function updateMyJobStatus(id, newStatus){
+  const orders = BG.getOrders();
+  const idx = orders.findIndex(o=>o.id===id);
+  if(idx<0) return;
+  const d = BG.durumlar[newStatus]||{label:newStatus};
+  orders[idx].durum = newStatus;
+  BG.addOrderLog(orders[idx], `Usta durumu güncelledi: ${d.label}`, BG.ustaById(currentUstaId)?.ad||'Usta');
+  BG.saveOrders(orders);
+  closeDrawer();
+  loadUsta();
+  showToast('✅', 'Durum Güncellendi', `İş durumu "${d.label}" olarak işaretlendi.`, 'success');
+}
+
+function closeDrawer(){
+  document.getElementById('jobDrawer').classList.remove('open');
+}
+
+function handlePhotos(input, jobId){
+  const container = document.getElementById('photos-'+jobId);
+  if(!container) return;
+  Array.from(input.files).forEach(f=>{
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const thumb = document.createElement('div');
+      thumb.className='photo-thumb';
+      thumb.innerHTML=`<img src="${e.target.result}"/><button class="remove" style="position:absolute;top:2px;right:2px;width:16px;height:16px;background:rgba(220,38,38,.8);color:#fff;border:none;border-radius:50%;font-size:.55rem;cursor:pointer" onclick="this.parentNode.remove()">✕</button>`;
+      container.appendChild(thumb);
+    };
+    reader.readAsDataURL(f);
+  });
+  showToast('📸','Fotoğraf Eklendi',input.files.length+' fotoğraf yüklendi.','success');
+}
+
+// ── MALZEME TALEBİ ──
+function openMatRequest(jobId){
+  document.getElementById('msgJobRef').value = jobId;
+  setMsgType('malzeme');
+  showTab('admin-msg');
+  setBnActive(2);
+  addMatRow();
+}
+
+function setMsgType(type){
+  msgType = type;
+  ['genel','malzeme','sorun','bilgi'].forEach(t=>{
+    const btn = document.getElementById('mt-'+t);
+    if(btn) btn.style.cssText = t===type?'border-color:var(--blue);color:var(--blue)':'';
+  });
+  document.getElementById('materialFields').style.display = type==='malzeme'?'block':'none';
+  const placeholders = {genel:'Mesajınızı yazın...',malzeme:'Malzeme talebi hakkında ek açıklama...',sorun:'Yaşadığınız sorunu detaylı açıklayın...',bilgi:'Hangi konuda bilgi almak istiyorsunuz?'};
+  document.getElementById('msgInput').placeholder = placeholders[type]||'';
+}
+
+function addMatRow(){
+  matCount++;
+  const id = 'mat-'+matCount;
+  const row = document.createElement('div');
+  row.className='mat-item'; row.id=id;
+  row.innerHTML=`
+    <select style="max-width:140px;padding:8px 10px;border:1.5px solid var(--border2);border-radius:8px;background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;outline:none">
+      <option>Kablo (NYY)</option><option>Sigorta</option><option>Pano Kutusu</option><option>Akım Trafosu</option><option>Kablo Kanalı</option><option>Dübel/Vida</option><option>Kablo Bağı</option><option>Maşon Tuğlası</option><option>Diğer</option>
+    </select>
+    <input type="text" placeholder="Miktar (örn: 10m, 2 adet)"/>
+    <button class="remove-mat" onclick="document.getElementById('${id}').remove()">✕</button>`;
+  document.getElementById('matList').appendChild(row);
+}
+
+function sendMsg(){
+  const text = document.getElementById('msgInput').value.trim();
+  const jobRef = document.getElementById('msgJobRef').value;
+  if(!text && msgType!=='malzeme') { alert('Mesaj boş olamaz.'); return; }
+
+  let fullMsg = text;
+  if(msgType==='malzeme'){
+    const items = [...document.querySelectorAll('#matList .mat-item')].map(r=>{
+      const sel = r.querySelector('select')?.value||'';
+      const qty = r.querySelector('input')?.value||'';
+      return sel && qty ? `• ${sel}: ${qty}` : '';
+    }).filter(Boolean);
+    if(!items.length){ alert('En az bir malzeme ekleyin.'); return; }
+    fullMsg = `[Malzeme Talebi]\n${items.join('\n')}${text?'\n\nNot: '+text:''}`;
+  }
+
+  const typeLabels = {genel:'💬 Genel',malzeme:'📦 Malzeme Talebi',sorun:'⚠️ Sorun Bildir',bilgi:'ℹ️ Bilgi Talebi'};
+  const msg = {
+    id:'MSG-'+Date.now(), ustaId:currentUstaId, ustaAd:BG.ustaById(currentUstaId)?.ad||'Usta',
+    jobId:jobRef, type:msgType, typeLabel:typeLabels[msgType],
+    text:fullMsg, ts:new Date().toISOString(), from:'usta', read:false
+  };
+  const msgs = JSON.parse(localStorage.getItem('bg_messages')||'[]');
+  msgs.unshift(msg);
+  localStorage.setItem('bg_messages', JSON.stringify(msgs));
+
+  document.getElementById('msgInput').value='';
+  document.getElementById('matList').innerHTML='';
+  matCount=0;
+  renderMessages();
+  showToast('✉️','Mesaj Gönderildi','Mesajınız admin paneline iletildi.','success');
+
+  // Simüle admin yanıtı (demo)
+  setTimeout(()=>{
+    const reply = {
+      id:'MSG-'+Date.now(), ustaId:currentUstaId, type:'reply',
+      text:msgType==='malzeme'?'Malzeme talebiniz alındı, en kısa sürede hazırlanacak ve size ulaştırılacak.':
+           msgType==='sorun'?'Sorun bildirimi alındı, inceleniyor. Kısa sürede dönüş yapacağız.':
+           'Mesajınız alındı, teşekkürler.',
+      ts:new Date().toISOString(), from:'admin', read:false
+    };
+    const m2=JSON.parse(localStorage.getItem('bg_messages')||'[]');m2.unshift(reply);
+    localStorage.setItem('bg_messages',JSON.stringify(m2));
+    renderMessages();
+    addNotification({type:'success',icon:'💬',msg:'Admin yanıt verdi: '+reply.text.slice(0,50)+'...',time:new Date()});
+    showToast('💬','Admin Yanıtladı',reply.text.slice(0,60)+'...','success');
+  }, 3000);
+}
+
+function renderMessages(){
+  const msgs = JSON.parse(localStorage.getItem('bg_messages')||'[]').filter(m=>m.ustaId===currentUstaId);
+  const container = document.getElementById('msgList');
+  if(!msgs.length){container.innerHTML='<div style="text-align:center;color:var(--muted);font-size:.82rem;padding:16px">Henüz mesaj yok</div>';return;}
+  container.innerHTML = msgs.map(m=>`
+    <div class="msg-bubble from-${m.from}" style="display:flex;flex-direction:column;align-self:${m.from==='usta'?'flex-end':'flex-start'};max-width:85%">
+      ${m.typeLabel?`<span style="font-size:.65rem;font-weight:700;color:var(--blue);margin-bottom:2px">${m.typeLabel}${m.jobId?' · '+m.jobId:''}</span>`:''}
+      <div style="white-space:pre-wrap">${m.text}</div>
+      <div class="msg-meta">${new Date(m.ts).toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})} · ${m.from==='usta'?'Siz':'Admin'}</div>
+    </div>`).join('');
+}
+
+// ── DEĞERLENDİRMELER ──
+function renderReviews(){
+  const surveys = getMysurveys();
+  if(!surveys.length){
+    document.getElementById('reviewSummary').innerHTML='<div class="empty"><div class="ei">⭐</div><div class="et">Henüz değerlendirme yok</div><div>Tamamlanan işlerden müşteri yorumları burada görünecek.</div></div>';
+    document.getElementById('reviewList').innerHTML='';
+    return;
+  }
+  const avg = (surveys.reduce((a,s)=>a+s.ratings.overall,0)/surveys.length).toFixed(1);
+  const cats=[{k:'punctuality',l:'⏰ Dakiklik'},{k:'quality',l:'🔧 İşçilik'},{k:'communication',l:'💬 İletişim'},{k:'cleanliness',l:'🧹 Temizlik'},{k:'value',l:'💰 Fiyat/Perf.'}];
+  document.getElementById('reviewSummary').innerHTML=`
+    <div class="rs-overall">
+      <div class="rs-big">${avg}</div>
+      <div>
+        <div class="rs-stars-big">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5-Math.round(avg))}</div>
+        <div class="rs-count">${surveys.length} değerlendirme</div>
+      </div>
+    </div>
+    ${cats.map(c=>{
+      const vals=surveys.filter(s=>s.ratings[c.k]>0).map(s=>s.ratings[c.k]);
+      const a=vals.length?vals.reduce((x,y)=>x+y,0)/vals.length:0;
+      return `<div class="rs-bar"><span class="rs-bar-label">${c.l}</span><div class="rs-bar-track"><div class="rs-bar-fill" style="width:${a/5*100}%"></div></div><span class="rs-bar-score">${a?a.toFixed(1):'—'}</span></div>`;
+    }).join('')}`;
+
+  document.getElementById('reviewList').innerHTML=surveys.map(s=>`
+    <div class="rv-card">
+      <div class="rv-head">
+        <div><div class="rv-customer">${s.customerName}</div><div class="rv-date">${s.jobDate} · ${s.jobId}</div></div>
+        <div>{{rec}}</div>
+      </div>
+      <div class="rv-stars">${'★'.repeat(s.ratings.overall)}${'☆'.repeat(5-s.ratings.overall)}</div>
+      ${s.comment?`<div class="rv-comment">"${s.comment}"</div>`:''}
+      ${s.problem!=='none'?`<div class="rv-problem">⚠️ ${s.problemText||'Sorun bildirdi'}</div>`:''}
+    </div>`).join('');
+}
+
+// ── BİLDİRİMLER ──
+function addNotification(n){
+  n.id = 'N-'+Date.now();
+  n.read = false;
+  notifications.unshift(n);
+  renderNotifications();
+  document.getElementById('notifDot').style.display='block';
+}
+
+function renderNotifications(){
+  const container = document.getElementById('notifList');
+  const unread = notifications.filter(n=>!n.read);
+  document.getElementById('notifDot').style.display=unread.length?'block':'none';
+  if(!notifications.length){container.innerHTML='<div class="notif-empty">Bildirim yok</div>';return;}
+  container.innerHTML=notifications.map(n=>`
+    <div class="notif-item ${n.read?'':'unread'} ${n.type||''}" onclick="markNotifRead('${n.id}')">
+      <div class="notif-icon">${n.icon||'🔔'}</div>
+      <div>
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time?new Date(n.time).toLocaleString('tr-TR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'}):'—'}</div>
+      </div>
+    </div>`).join('');
+}
+
+function markNotifRead(id){
+  const n = notifications.find(x=>x.id===id);
+  if(n) n.read=true;
+  renderNotifications();
+}
+
+function clearNotifs(){
+  notifications.forEach(n=>n.read=true);
+  renderNotifications();
+}
+
+function toggleNotif(){
+  document.getElementById('notifPanel').classList.toggle('open');
+}
+
+// ── HATIRLATICILAR ──
+function scheduleReminders(){
+  const orders = getMyOrders();
+  orders.forEach(o=>{
+    const countdown = getCountdown(o.tarih, o.saat);
+    if(countdown.cls==='today' && !o._remindedToday){
+      addNotification({type:'warn',icon:'⏰',msg:`Bugün ${o.saat} — ${o.musteri} (${o.il}/${o.ilce}) randevunuz var!`,time:new Date()});
+      o._remindedToday=true;
+    }
+    if(countdown.cls==='tomorrow' && !o._remindedTomorrow){
+      addNotification({type:'warn',icon:'📅',msg:`Yarın ${o.saat} — ${o.musteri} için randevunuz var. Hazırlıklarınızı yapın.`,time:new Date()});
+      o._remindedTomorrow=true;
+    }
+  });
+  // Yeni iş atama bildirimi
+  orders.filter(o=>!['kapandi','iptal'].includes(o.durum)).forEach(o=>{
+    if(!o._notified){
+      addNotification({icon:'🔧',msg:`Yeni iş atandı: ${o.musteri} — ${o.tarih} ${o.saat}`,time:new Date(o.olusturmaTarihi)});
+      o._notified=true;
+    }
+  });
+}
+
+function checkReminders(){
+  scheduleReminders();
+}
+
+// ── TOAST ──
+function showToast(icon, title, msg, type=''){
+  const tc = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className='toast';
+  t.style.borderLeft = type==='success'?'3px solid var(--green)':type==='warn'?'3px solid var(--orange)':'3px solid var(--blue)';
+  t.innerHTML=`<div class="toast-icon">${icon}</div><div class="toast-body"><div class="toast-title">${title}</div><div class="toast-msg">${msg}</div></div><button class="toast-close" onclick="this.closest('.toast').remove()">✕</button>`;
+  tc.appendChild(t);
+  setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),300);}, 4000);
+}
+
+// ── TAB / NAV ──
+function showTab(tab){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+tab).classList.add('active');
+  const tabs = document.querySelectorAll('.tab');
+  const tabMap = {islerim:0,takvim:1,'admin-msg':2,degerlendirmeler:3};
+  if(tabMap[tab]!==undefined && tabs[tabMap[tab]]) tabs[tabMap[tab]].classList.add('active');
+}
+
+function setBnActive(idx){
+  document.querySelectorAll('.bn-item').forEach((b,i)=>b.classList.toggle('active',i===idx));
+}
+
+init();
+
+// Hoş geldin tostu
+setTimeout(()=>{
+  const u = BG.ustaById(currentUstaId);
+  if(u) showToast('👷','Hoş geldiniz!',u.ad+' olarak giriş yaptınız.');
+}, 800);
+</script>
+</body>
+</html>
