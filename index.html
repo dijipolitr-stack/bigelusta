@@ -795,7 +795,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
         </div>
 
         <!-- ADIM 3: TARİH & SAAT -->
-        <div class="step-panel" id="step5">
+        <div class="step-panel" id="step4">
           <div class="step-header">
             <div class="step-num-badge">Adım 4 / 5</div>
             <div class="step-title">Randevu Tarihi ve Saati</div>
@@ -852,9 +852,9 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
             <!-- Wallbox -->
             <div class="device-card" onclick="selectDevice(this,'wallbox')" style="border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;background:var(--white)">
               <div style="padding:20px 16px;background:var(--grad-soft);display:flex;justify-content:center;border-bottom:1px solid var(--border);position:relative">
-                <img src="https://www.kinetacharge.com/wp-content/uploads/2021/09/Pulsar-Plus-White.png"
+                <div style="width:80px;height:110px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#e8f0fe,#dbeafe);border-radius:12px;border:2px solid #3b82f6"><div style="font-size:2.5rem">🔌</div><div style="font-size:.55rem;font-weight:800;color:#1a56db;margin-top:4px">WALLBOX</div></div><rect x='35' y='25' width='50' height='35' rx='8' fill='%231a56db' opacity='.15'/><circle cx='60' cy='43' r='12' fill='%231a56db' opacity='.3'/><path d='M55 43 L63 35 L61 43 L67 43 L59 51 L61 43 Z' fill='%231a56db'/><rect x='45' y='70' width='30' height='4' rx='2' fill='%231a56db' opacity='.3'/><rect x='40' y='80' width='40' height='3' rx='1.5' fill='%231a56db' opacity='.2'/><rect x='43' y='88' width='34' height='3' rx='1.5' fill='%231a56db' opacity='.2'/><rect x='42' y='105' width='36' height='22' rx='6' fill='%231a56db' opacity='.1' stroke='%231a56db' stroke-width='1' opacity='.2'/><circle cx='60' cy='116' r='6' fill='%231a56db' opacity='.4'/></svg>"
                      style="max-height:110px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(26,86,219,.12))"
-                     onerror="this.src='';this.parentNode.innerHTML='<div style=font-size:3rem;text-align:center>🔌</div>'"/>
+                     onerror="this.onerror=null;this.parentNode.innerHTML='<div style=\"font-size:3rem;text-align:center;padding:20px\">🔌</div>'" />
                 <div class="device-check" style="display:none;position:absolute;top:10px;right:10px;width:24px;height:24px;background:var(--grad);border-radius:50%;align-items:center;justify-content:center;font-size:.8rem;color:#fff">✓</div>
               </div>
               <div style="padding:14px">
@@ -876,9 +876,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
             <!-- ABB -->
             <div class="device-card" onclick="selectDevice(this,'abb')" style="border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;background:var(--white)">
               <div style="padding:20px 16px;background:var(--grad-soft);display:flex;justify-content:center;border-bottom:1px solid var(--border);position:relative">
-                <img src="https://new.abb.com/docs/librariesprovider53/default-album/terra-ac-wallbox-whitev2.png"
-                     style="max-height:110px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(26,86,219,.12))"
-                     onerror="this.src='';this.parentNode.innerHTML='<div style=font-size:3rem;text-align:center>⚡</div>'"/>
+                <div style="width:80px;height:110px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#f1f5f9,#e2e8f0);border-radius:6px;border:2px solid #334155"><div style="font-size:2.5rem">⚡</div><div style="font-size:.55rem;font-weight:800;color:#334155;margin-top:4px">ABB</div></div>
                 <div class="device-check" style="display:none;position:absolute;top:10px;right:10px;width:24px;height:24px;background:var(--grad);border-radius:50%;align-items:center;justify-content:center;font-size:.8rem;color:#fff">✓</div>
               </div>
               <div style="padding:14px">
@@ -900,9 +898,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
             <!-- Vestel -->
             <div class="device-card" onclick="selectDevice(this,'vestel')" style="border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s;background:var(--white)">
               <div style="padding:20px 16px;background:var(--grad-soft);display:flex;justify-content:center;border-bottom:1px solid var(--border);position:relative">
-                <img src="https://productimages.hepsiburada.net/s/526/550/110000468617025.jpg"
-                     style="max-height:110px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(26,86,219,.12))"
-                     onerror="this.src='';this.parentNode.innerHTML='<div style=font-size:3rem;text-align:center>🇹🇷</div>'"/>
+                <div style="width:80px;height:110px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff7ed,#ffedd5);border-radius:10px;border:2px solid #c8900a"><div style="font-size:2.5rem">🔋</div><div style="font-size:.55rem;font-weight:800;color:#c8900a;margin-top:4px">VESTEL</div></div>
                 <div class="device-check" style="display:none;position:absolute;top:10px;right:10px;width:24px;height:24px;background:var(--grad);border-radius:50%;align-items:center;justify-content:center;font-size:.8rem;color:#fff">✓</div>
               </div>
               <div style="padding:14px">
@@ -929,7 +925,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
           </div>
         </div>
 
-        <div class="step-panel" id="step4">
+        <div class="step-panel" id="step5">
           <div class="step-header">
             <div class="step-num-badge">Adım 5 / 5</div>
             <div class="step-title">Randevu Özeti</div>
@@ -1295,7 +1291,7 @@ function handleMultiUpload(input, labelId, listId) {
     });
     const lbl = document.getElementById(labelId);
     lbl.style.borderColor = 'var(--green-br)';
-    lbl.innerHTML = '<span style="font-size:1.5rem">✅</span><div style="font-size:.85rem;font-weight:700;color:var(--green)">' + input.files.length + ' dosya seçildi</div><input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleMultiUpload(this,'mediaUploadLabel','mediaFileList')"/>';
+    lbl.innerHTML = `<span style="font-size:1.5rem">✅</span><div style="font-size:.85rem;font-weight:700;color:var(--green)">${input.files.length} dosya seçildi</div><input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleMultiUpload(this,'mediaUploadLabel','mediaFileList')"/>`;
   }
 }
 
