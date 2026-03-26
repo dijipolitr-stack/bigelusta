@@ -667,28 +667,126 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
             </div>
           </div>
 
+          <!-- MALİYET TAHMİN FAKTÖRÜ BAŞLIĞI -->
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--blue-pale);border:1px solid var(--blue-br);border-radius:10px;margin-bottom:16px;font-size:.8rem;color:var(--blue)">
+            <span style="font-size:1rem;flex-shrink:0">💡</span>
+            <span>Aşağıdaki bilgiler <strong>tahmini kurulum maliyetini</strong> doğrudan etkileyen teknik faktörlerdir. Bilmiyorsanız fotoğraf yükleyebilirsiniz.</span>
+          </div>
+
+          <!-- ELEKTRİK ALTYAPISI: MONOFAZE / TRİFAZE -->
+          <div class="fg" id="fg-phase">
+            <label>Bina Elektrik Altyapısı <span style="color:var(--blue);font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-left:4px">Maliyet Faktörü</span></label>
+            <div class="radio-list">
+              <div class="radio-item" onclick="selectRadio(this,'phase');hidePhotoHint()">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">1️⃣</span>
+                <div class="ri-text">
+                  <strong>Monofaze (Tek Faz — 230V)</strong>
+                  <span>Çoğu dairede standart. Maksimum 7.4kW şarj gücü sağlar.</span>
+                </div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'phase');hidePhotoHint()">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">3️⃣</span>
+                <div class="ri-text">
+                  <strong>Trifaze (Üç Faz — 400V)</strong>
+                  <span>Genellikle villa, işyeri veya yeni binalarda. 22kW'a kadar şarj imkânı sunar.</span>
+                </div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'phase');showPhotoHint()">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">❓</span>
+                <div class="ri-text">
+                  <strong>Bilmiyorum — Sigorta Panosu Fotoğrafı Göndereyim</strong>
+                  <span>Sorun değil! Pano fotoğrafından BigelUsta uzmanı tespit eder.</span>
+                </div>
+              </div>
+            </div>
+            <!-- Sigorta panosu fotoğraf yükleme (gizli, "bilmiyorum" seçilince açılır) -->
+            <div id="phasePhotoHint" style="display:none;margin-top:12px;padding:14px 16px;background:var(--bg2);border:1.5px dashed var(--blue-br);border-radius:10px">
+              <div style="font-size:.8rem;font-weight:700;color:var(--blue);margin-bottom:8px">📸 Sigorta Panosu Fotoğrafı</div>
+              <div style="font-size:.76rem;color:var(--muted);margin-bottom:10px">Elektrik panonuzun kapağını açıp içini fotoğraflayın. Monofaze/trifaze olduğunu oradan anlayabiliriz.</div>
+              <label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--white);border:1.5px solid var(--border2);border-radius:9px;cursor:pointer;transition:all .2s" id="phaseUploadLabel">
+                <span style="font-size:1.4rem">📁</span>
+                <div>
+                  <div style="font-size:.83rem;font-weight:700;color:var(--text)">Fotoğraf Seç</div>
+                  <div style="font-size:.72rem;color:var(--muted)">JPG, PNG veya PDF — Maks. 10MB</div>
+                </div>
+                <input type="file" accept="image/*,.pdf" style="display:none" id="phasePhoto" onchange="handleFileUpload(this,'phaseUploadLabel','phaseFileName')"/>
+              </label>
+              <div id="phaseFileName" style="font-size:.75rem;color:var(--green);margin-top:6px;display:none"></div>
+            </div>
+          </div>
+
+          <!-- SİGORTA PANOSU - PARK YERİ MESAFESİ -->
+          <div class="fg" id="fg-dist">
+            <label>Sigorta Panosu ile Park Yeri Arası Mesafe <span style="color:var(--blue);font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-left:4px">Maliyet Faktörü</span></label>
+            <div style="font-size:.76rem;color:var(--muted);margin-bottom:10px">Kablo uzunluğu kurulum maliyetini etkiler. Tahmini olması yeterli.</div>
+            <div class="radio-list">
+              <div class="radio-item" onclick="selectRadio(this,'dist')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">📏</span>
+                <div class="ri-text"><strong>0–10 metre</strong><span>Pano park yerine çok yakın, standart kablo yeterli</span></div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'dist')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">📏</span>
+                <div class="ri-text"><strong>10–25 metre</strong><span>Orta mesafe, ek kablo gerekebilir</span></div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'dist')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">📏</span>
+                <div class="ri-text"><strong>25–50 metre</strong><span>Uzun mesafe, özel kablo ve ek maliyet olabilir</span></div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'dist')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">📏</span>
+                <div class="ri-text"><strong>50 metre üzeri</strong><span>Uzak mesafe, detaylı keşif gerektirir</span></div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'dist')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">❓</span>
+                <div class="ri-text"><strong>Bilmiyorum / Tahmin edemiyorum</strong><span>Usta keşifte ölçer</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KURULUM ALANI FOTOĞRAF / VIDEO -->
+          <div class="fg">
+            <label>Kurulum Alanı Fotoğraf veya Video <span style="color:var(--muted);font-size:.65rem;font-weight:500;text-transform:none;letter-spacing:0;margin-left:4px">(İsteğe bağlı)</span></label>
+            <div style="font-size:.76rem;color:var(--muted);margin-bottom:10px">Park yeri, sigorta panosu veya kablo güzergahını gösterir fotoğraf/video paylaşırsanız daha doğru fiyat teklifi verebiliriz.</div>
+            <label id="mediaUploadLabel" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px 16px;background:var(--bg2);border:2px dashed var(--border2);border-radius:12px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.borderColor='var(--blue-br)';this.style.background='var(--blue-pale)'" onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--bg2)'">
+              <span style="font-size:2rem">📎</span>
+              <div style="font-size:.85rem;font-weight:700;color:var(--text)">Fotoğraf veya Video Ekle</div>
+              <div style="font-size:.73rem;color:var(--muted)">JPG, PNG, MP4, MOV — Maks. 50MB — Birden fazla seçebilirsiniz</div>
+              <input type="file" accept="image/*,video/*" multiple style="display:none" id="mediaFiles" onchange="handleMultiUpload(this,'mediaUploadLabel','mediaFileList')"/>
+            </label>
+            <div id="mediaFileList" style="display:none;margin-top:10px;display:flex;flex-direction:column;gap:6px"></div>
+          </div>
+
+          <!-- ELEKTRİK PANOSU DOLULUK -->
           <div class="fg">
             <label>Elektrik Panosu Durumu</label>
             <div class="radio-list">
               <div class="radio-item" onclick="selectRadio(this,'panel')">
                 <div class="radio-dot"></div>
                 <span class="ri-icon">✅</span>
-                <div class="ri-text"><strong>Uygun, fazladan devre var</strong><span>Mevcut panoda boş yer mevcut</span></div>
-              </div>
-              <div class="radio-item" onclick="selectRadio(this,'panel')">
-                <div class="radio-dot"></div>
-                <span class="ri-icon">❓</span>
-                <div class="ri-text"><strong>Emin değilim</strong><span>Usta gelince kontrol edebilir</span></div>
+                <div class="ri-text"><strong>Panoda boş yer var, sigorta takılabilir</strong><span>Ekstra müdahale gerekmez</span></div>
               </div>
               <div class="radio-item" onclick="selectRadio(this,'panel')">
                 <div class="radio-dot"></div>
                 <span class="ri-icon">⚠️</span>
-                <div class="ri-text"><strong>Güncelleme gerekebilir</strong><span>Panel kapasitesi yetersiz olabilir</span></div>
+                <div class="ri-text"><strong>Pano dolu, güncelleme gerekebilir</strong><span>Ek maliyet doğabilir</span></div>
+              </div>
+              <div class="radio-item" onclick="selectRadio(this,'panel')">
+                <div class="radio-dot"></div>
+                <span class="ri-icon">❓</span>
+                <div class="ri-text"><strong>Bilmiyorum</strong><span>Usta keşifte kontrol eder</span></div>
               </div>
             </div>
           </div>
 
-          <div class="fg"><label>Ek Notlar (İsteğe Bağlı)</label><textarea id="f-notes" placeholder="Özel durumunuz, erişim kısıtlamaları veya eklemek istediğiniz bilgiler..."></textarea></div>
+          <div class="fg"><label>Eklemek İstedikleriniz <span style="color:var(--muted);font-size:.65rem;font-weight:500;text-transform:none;letter-spacing:0;margin-left:4px">(İsteğe bağlı)</span></label><textarea id="f-notes" placeholder="Özel durumlar, erişim kısıtlamaları, kablo güzergahı hakkında notlar..."></textarea></div>
 
           <div class="step-btns">
             <button class="btn-back" onclick="goStep(1)">← Geri</button>
@@ -743,7 +841,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
               <strong style="display:block;margin-bottom:2px">Cihazım mevcut — sadece kurulum istiyorum</strong>
               <span style="color:var(--muted);font-size:.78rem">Bu adımı atlayın, doğrudan tarih seçimine geçin.</span>
             </div>
-            <button class="btn-back" onclick="skipDevice()" style="background:var(--white);border-color:var(--green-br);color:var(--green);font-weight:700;white-space:nowrap;padding:10px 20px">
+            <button onclick="skipDevice()" style="padding:10px 22px;border:1.5px solid var(--green-br);border-radius:10px;background:var(--green-bg);color:var(--green);font-family:'Plus Jakarta Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s" onmouseover="this.style.background='rgba(5,150,105,.15)'" onmouseout="this.style.background='var(--green-bg)'">
               Atla, Devam Et →
             </button>
           </div>
@@ -827,7 +925,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
 
           <div class="step-btns" style="margin-top:20px">
             <button class="btn-back" onclick="goStep(2)">← Geri</button>
-            <button class="btn-next" id="btnDeviceNext" onclick="goStep(4)" style="opacity:.4;pointer-events:none">Tarih Seç →</button>
+            <button class="btn-next" id="btnDeviceNext" onclick="goStep(4)" style="opacity:.5" title="Cihaz seçin ya da 'Atla' butonunu kullanın">Tarih Seç →</button>
           </div>
         </div>
 
@@ -846,6 +944,9 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
             <div class="sb-row"><span class="sb-key">Araç</span><span class="sb-val" id="sv-car">—</span></div>
             <div class="sb-row"><span class="sb-key">Kurulum Yeri</span><span class="sb-val" id="sv-loc">—</span></div>
             <div class="sb-row"><span class="sb-key">Cihaz Durumu</span><span class="sb-val" id="sv-dev">—</span></div>
+            <div class="sb-row"><span class="sb-key">Elektrik Altyapısı</span><span class="sb-val" id="sv-phase">—</span></div>
+            <div class="sb-row"><span class="sb-key">Pano–Park Mesafesi</span><span class="sb-val" id="sv-dist">—</span></div>
+            <div class="sb-row"><span class="sb-key">Eklenen Medya</span><span class="sb-val" id="sv-media">—</span></div>
             <div class="sb-row"><span class="sb-key">Cihaz</span><span class="sb-val" id="sv-device">—</span></div>
             <div class="sb-row"><span class="sb-key">Tarih</span><span class="sb-val" id="sv-date">—</span></div>
             <div class="sb-row"><span class="sb-key">Saat</span><span class="sb-val" id="sv-time">—</span></div>
@@ -1099,6 +1200,21 @@ function fillSummary(){
   document.getElementById('sv-car').textContent=car;
   document.getElementById('sv-loc').textContent=loc;
   document.getElementById('sv-dev').textContent=dev;
+
+  // Phase
+  const phaseSel=document.querySelector('#fg-phase .radio-item.selected strong');
+  const svPhase=document.getElementById('sv-phase');
+  if(svPhase) svPhase.textContent=phaseSel?phaseSel.textContent:'—';
+
+  // Distance
+  const distSel=document.querySelector('#fg-dist .radio-item.selected strong');
+  const svDist=document.getElementById('sv-dist');
+  if(svDist) svDist.textContent=distSel?distSel.textContent:'—';
+
+  // Media files
+  const mediaInput=document.getElementById('mediaFiles');
+  const svMedia=document.getElementById('sv-media');
+  if(svMedia) svMedia.textContent=mediaInput&&mediaInput.files&&mediaInput.files.length>0?mediaInput.files.length+' dosya ekli':'Eklenmedi';
   // Device
   const deviceNames = {'wallbox':'Wallbox Pulsar Plus 22kW — ₺16.500','abb':'ABB Terra AC 22kW — ₺22.900','vestel':'Vestel EVC04 Smart 22kW — ₺22.000',null:'Cihazım mevcut / Seçilmedi'};
   const svDevice = document.getElementById('sv-device');
@@ -1135,7 +1251,7 @@ function selectDevice(el, id) {
   el.querySelector('.device-check').style.display = 'flex';
   const btn = document.getElementById('btnDeviceNext');
   btn.style.opacity = '1';
-  btn.style.pointerEvents = 'auto';
+  btn.textContent = '✓ Cihaz Seçildi — Tarih Seç →';
 }
 
 function skipDevice() {
@@ -1145,10 +1261,44 @@ function skipDevice() {
     c.style.boxShadow = 'none';
     c.querySelector('.device-check').style.display = 'none';
   });
-  const btn = document.getElementById('btnDeviceNext');
-  btn.style.opacity = '1';
-  btn.style.pointerEvents = 'auto';
   goStep(4);
+}
+
+function showPhotoHint() {
+  document.getElementById('phasePhotoHint').style.display = 'block';
+}
+function hidePhotoHint() {
+  document.getElementById('phasePhotoHint').style.display = 'none';
+}
+
+function handleFileUpload(input, labelId, nameId) {
+  if (input.files && input.files[0]) {
+    const name = input.files[0].name;
+    const el = document.getElementById(nameId);
+    el.textContent = '✅ ' + name + ' yüklendi';
+    el.style.display = 'block';
+    const lbl = document.getElementById(labelId);
+    lbl.style.borderColor = 'var(--green-br)';
+    lbl.style.background = 'var(--green-bg)';
+  }
+}
+
+function handleMultiUpload(input, labelId, listId) {
+  const listEl = document.getElementById(listId);
+  listEl.innerHTML = '';
+  if (input.files && input.files.length > 0) {
+    listEl.style.display = 'flex';
+    Array.from(input.files).forEach(file => {
+      const item = document.createElement('div');
+      item.style.cssText = 'display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--green-bg);border:1px solid var(--green-br);border-radius:8px;font-size:.78rem;color:var(--green);font-weight:600';
+      const isVideo = file.type.startsWith('video');
+      item.innerHTML = (isVideo ? '🎥' : '📷') + ' ' + file.name + ' <span style="color:var(--muted);font-weight:400;margin-left:auto">' + (file.size/1024/1024).toFixed(1) + ' MB</span>';
+      listEl.appendChild(item);
+    });
+    const lbl = document.getElementById(labelId);
+    lbl.style.borderColor = 'var(--green-br)';
+    lbl.innerHTML = '<span style="font-size:1.5rem">✅</span><div style="font-size:.85rem;font-weight:700;color:var(--green)">' + input.files.length + ' dosya seçildi</div><input type="file" accept="image/*,video/*" multiple style="display:none" onchange="handleMultiUpload(this,'mediaUploadLabel','mediaFileList')"/>';
+  }
 }
 
 function resetForm(){
