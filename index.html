@@ -2,7 +2,10 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0"/>
+<meta name="theme-color" content="#1a56db"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <title>BigelUsta — Garantili EV Şarj Kurulum Hizmeti</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -403,29 +406,173 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
 .wa-tip{background:var(--white);border:1px solid var(--wa-br);border-radius:8px;padding:7px 12px;font-size:.74rem;color:var(--wa);font-weight:700;white-space:nowrap;box-shadow:var(--shadow)}
 
 /* ── RESPONSIVE ── */
+/* ── TABLET ── */
 @media(max-width:1100px){
   .hero-inner,.guarantee-inner{grid-template-columns:1fr}
   .hero-right{display:none}
   .nav-links{display:none}
   .how-grid{grid-template-columns:repeat(3,1fr)}
-  .products{grid-template-columns:1fr 1fr}
-  .appt-inner{grid-template-columns:1fr}
   .testis{grid-template-columns:1fr 1fr}
   .stats-band-inner{grid-template-columns:1fr 1fr}
   .cta-inner{grid-template-columns:1fr}
   .cta-btns{flex-direction:row}
   .foot-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:700px){
-  .how-grid{grid-template-columns:1fr 1fr}
-  .products{grid-template-columns:1fr}
-  .testis{grid-template-columns:1fr}
-  .frow{grid-template-columns:1fr}
-  .time-slots{grid-template-columns:repeat(3,1fr)}
-  .shop-info-row{grid-template-columns:1fr 1fr}
-  .trust-inner{flex-direction:column;align-items:flex-start}
+  .appt-wrap{padding:48px 4%}
+  .guarantee-inner{padding:60px 4%}
 }
 
+/* ── MOBİL ── */
+@media(max-width:700px){
+  /* NAV */
+  nav{padding:0 4%;height:60px}
+  .logo-bigel,.logo-usta{font-size:1.15rem}
+  .logo-sub{display:none}
+  .nav-right{gap:8px}
+  .nav-portal{display:none}
+  .btn-blue{padding:8px 16px;font-size:.78rem}
+
+  /* HERO */
+  .hero{padding:90px 4% 48px}
+  .hero h1{font-size:2rem;line-height:1.15}
+  .hero-desc{font-size:.9rem}
+  .hero-guar{font-size:.72rem;flex-wrap:wrap;gap:4px}
+  .hero-btns{flex-direction:column;width:100%}
+  .btn-hero{width:100%;justify-content:center;padding:14px 20px;font-size:.95rem}
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+  .hstat-n{font-size:1.4rem}
+  .hstat-l{font-size:.58rem}
+
+  /* TRUST BAND */
+  .trust-band{padding:16px 4%}
+  .trust-inner{flex-direction:column;gap:12px;align-items:flex-start}
+  .trust-item{font-size:.8rem}
+
+  /* SECTIONS */
+  .sec{padding:52px 4%}
+  .appt-wrap{padding:40px 4%}
+  .st{font-size:1.6rem}
+
+  /* HOW GRID */
+  .how-grid{grid-template-columns:1fr}
+  .how-card{padding:24px 18px}
+
+  /* PROGRESS BAR */
+  .progress-bar{gap:0;overflow-x:auto;padding-bottom:4px;justify-content:flex-start;-webkit-overflow-scrolling:touch}
+  .pb-step{min-width:56px}
+  .pb-circle{width:32px;height:32px;font-size:.75rem}
+  .pb-label{font-size:.55rem;white-space:nowrap}
+  .pb-line{width:40px}
+
+  /* FORM */
+  .frow{grid-template-columns:1fr}
+  .fg input,.fg select,.fg textarea{font-size:16px} /* prevent zoom on iOS */
+  .step-title{font-size:1.15rem}
+  .step-btns{flex-direction:column-reverse;gap:8px}
+  .btn-next{width:100%;padding:14px;font-size:.95rem}
+  .btn-back{width:100%;padding:12px;text-align:center}
+
+  /* CHOICE GRID */
+  .choice-grid{grid-template-columns:1fr}
+  .choice-card{padding:14px 12px}
+
+  /* CALENDAR */
+  .cal-wrap{padding:12px}
+  .cday{font-size:.72rem;border-radius:6px}
+  .time-slots{grid-template-columns:repeat(4,1fr);gap:5px}
+  .ts{padding:8px 2px;font-size:.72rem}
+
+  /* DEVICE CARDS */
+  #deviceCards{grid-template-columns:1fr !important}
+
+  /* SUMMARY */
+  .summary-box{padding:16px 12px}
+  .sb-row{flex-direction:column;gap:2px;align-items:flex-start;padding:10px 0}
+  .sb-val{text-align:left;max-width:100%}
+
+  /* WA SUCCESS */
+  .wa-success{padding:28px 16px}
+  .wa-success-title{font-size:1.2rem}
+  .btn-wa-big{font-size:.92rem;padding:14px}
+  .wa-flow-card{margin-bottom:16px}
+  .ws-body strong{font-size:.82rem}
+  .ws-body span{font-size:.72rem}
+
+  /* GUARANTEE */
+  .guarantee-inner{padding:48px 4%;grid-template-columns:1fr;gap:32px}
+  .gv{padding:28px 20px}
+
+  /* TESTIS */
+  .testis{grid-template-columns:1fr}
+
+  /* STATS */
+  .stats-band-inner{grid-template-columns:1fr 1fr}
+  .sb-n{font-size:2.2rem}
+
+  /* CTA */
+  .cta-box{padding:48px 4%}
+  .cta-inner{grid-template-columns:1fr;gap:24px}
+  .cta-btns{flex-direction:column;width:100%}
+  .btn-white,.btn-wa-cta{width:100%;justify-content:center;padding:14px}
+
+  /* USTA BAR */
+  .usta-bar{padding:14px 4%}
+  .usta-bar-inner{flex-direction:column;align-items:flex-start;gap:12px}
+  .btn-usta{width:100%;text-align:center}
+
+  /* FOOTER */
+  footer{padding:40px 4% 20px}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-desc{max-width:100%}
+  .foot-bottom{flex-direction:column;gap:10px;text-align:center}
+  .foot-tags{flex-wrap:wrap;justify-content:center}
+
+  /* WA FLOAT */
+  .wa-float{bottom:16px;right:16px}
+  .wa-float-btn{width:48px;height:48px}
+  .wa-float-btn svg{width:22px;height:22px}
+  .wa-tip{font-size:.68rem}
+}
+
+/* ── KÜÇÜK MOBİL (375px altı) ── */
+@media(max-width:390px){
+  .hero h1{font-size:1.75rem}
+  .progress-bar{gap:0}
+  .pb-line{width:28px}
+  .pb-circle{width:28px;height:28px;font-size:.68rem}
+  .time-slots{grid-template-columns:repeat(3,1fr)}
+  .stats-band-inner{grid-template-columns:1fr 1fr}
+}
+
+/* ── MOBİL DOKUNMATİK İYİLEŞTİRMELERİ ── */
+@media(hover:none) and (pointer:coarse){
+  .how-card:hover,.choice-card:hover,.radio-item:hover,
+  .testi:hover,.gi:hover,.btn-hero:hover{
+    transform:none;
+    box-shadow:var(--shadow);
+  }
+  .choice-card,.radio-item{
+    -webkit-tap-highlight-color:rgba(26,86,219,.1);
+  }
+  .btn-next,.btn-back,.btn-wa-big,.btn-white{
+    min-height:48px; /* erişilebilirlik için minimum dokunma alanı */
+  }
+}
+
+
+/* ── HAMBURGEr MENÜ ── */
+.hamburger{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:none;border:none;cursor:pointer;padding:0;flex-shrink:0}
+.hamburger span{display:block;width:100%;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(6px,6px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+.mobile-menu{display:none;position:fixed;top:60px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:16px 4% 20px;z-index:199;box-shadow:0 8px 24px rgba(26,86,219,.1);flex-direction:column;gap:0}
+.mobile-menu.open{display:flex}
+.mobile-menu a{display:block;padding:14px 0;font-size:1rem;font-weight:600;color:var(--text2);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+.mobile-menu a:hover{color:var(--blue)}
+.mobile-menu a:last-of-type{border-bottom:none}
+@media(max-width:700px){
+  .hamburger{display:flex}
+}
 /* ── ANİM ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero-left>*{animation:fadeUp .48s ease both}
@@ -466,7 +613,19 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
     <div class="nav-right">
       <a href="#usta-portal" class="nav-portal">Usta Girişi</a>
       <button class="btn-blue" onclick="document.getElementById('randevu').scrollIntoView({behavior:'smooth'})">Randevu Al →</button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+  <!-- MOBİL MENÜ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#nasil-calisir" onclick="toggleMenu()">Nasıl Çalışır?</a>
+    <a href="#randevu" onclick="toggleMenu()">Randevu Al</a>
+    <a href="#garanti" onclick="toggleMenu()">Garanti</a>
+    <a href="#yorumlar" onclick="toggleMenu()">Yorumlar</a>
+    <a href="#usta-portal" onclick="toggleMenu()">Usta Girişi</a>
+    <button class="btn-blue" style="width:100%;margin-top:8px;padding:14px;font-size:1rem" onclick="document.getElementById('randevu').scrollIntoView({behavior:'smooth'});toggleMenu()">📅 Randevu Al</button>
   </div>
 </nav>
 
@@ -1050,7 +1209,7 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
 <div class="usta-bar" id="usta-portal">
   <div class="usta-bar-inner">
     <div class="ub-left"><div class="ub-icon">👷</div><div class="ub-text"><strong>BigelUsta Usta Portalı</strong><span>Atanan işleri takip et, kurulum fotoğraflarını yükle — sadece BigelUsta ekibi için</span></div></div>
-    <button class="btn-usta">Usta Girişi →</button>
+    <a href="bigelusta-usta.html" class="btn-usta">Usta Girişi →</a>
   </div>
 </div>
 
@@ -1072,11 +1231,12 @@ footer{background:linear-gradient(135deg,#0a2463,#0f3580);color:#fff;padding:56p
         </a>
       </div>
       <div class="foot-col"><h5>Hizmetler</h5><ul><li><a href="#">Ev Kurulumu</a></li><li><a href="#">İşyeri Kurulumu</a></li><li><a href="#">Cihaz Mağazası</a></li><li><a href="#">Bakım & Onarım</a></li><li><a href="#">Ücretsiz Keşif</a></li></ul></div>
-      <div class="foot-col"><h5>Kurumsal</h5><ul><li><a href="#">Hakkımızda</a></li><li><a href="#">Garanti Koşulları</a></li><li><a href="#">Gizlilik Politikası</a></li><li><a href="#">S.S.S.</a></li><li><a href="#usta-portal" style="color:rgba(99,179,237,.8)">Usta Portalı →</a></li></ul></div>
+      <div class="foot-col"><h5>Kurumsal</h5><ul><li><a href="#">Hakkımızda</a></li><li><a href="#">Garanti Koşulları</a></li><li><a href="#">Gizlilik Politikası</a></li><li><a href="#">S.S.S.</a></li><li><a href="bigelusta-usta.html" style="color:rgba(99,179,237,.8)">Usta Portalı →</a></li></ul></div>
       <div class="foot-col"><h5>İletişim</h5><ul><li>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90f9fef6ffd0f2f9f7f5fce5e3e4f1bef3fffd">[email&#160;protected]</a></li><li>📞 0850 XXX XX XX</li><li>📍 İstanbul, Türkiye</li><li>🕐 7/24 Destek</li></ul></div>
     </div>
     <div class="foot-bottom">
       <p class="foot-copy">© 2026 BigelUsta. Tüm hakları saklıdır. — Garantili EV Şarj Kurulum Hizmeti</p>
+      <a href="bigelusta-admin.html" style="color:rgba(255,255,255,.15);font-size:.65rem;text-decoration:none;transition:color .2s" onmouseover="this.style.color='rgba(255,255,255,.5)'" onmouseout="this.style.color='rgba(255,255,255,.15)'">⚙ Yönetim</a>
       <div class="foot-tags"><span class="foot-tag">🔒 SSL</span><span class="foot-tag">🇹🇷 Türkiye</span><span class="foot-tag">⚡ EV</span><span class="foot-tag">🛡️ Garantili</span></div>
     </div>
   </div>
@@ -1133,6 +1293,23 @@ function renderSlots(ds){
 function prevMonth(){m--;if(m<0){m=11;y--;}renderCal();}
 function nextMonth(){m++;if(m>11){m=0;y++;}renderCal();}
 document.addEventListener("DOMContentLoaded", function(){ renderCal(); });
+
+function toggleMenu(){
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+// Close menu on outside click
+document.addEventListener('click', function(e){
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  if(menu && menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+
 
 // ── ÇOK ADIMLI FORM ──
 let curStep=1;
